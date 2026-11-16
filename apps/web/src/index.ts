@@ -1,7 +1,7 @@
 import { type Item, render, type Spine, themeIds, themes, widths } from '@repo/spine'
 import { type Env, HttpError, json, svg, ttl } from './http.ts'
 import { options, type ShelfItem, type Style, shelfItem, spine, styleFrom } from './params.ts'
-import { type Preset, preset, presets } from './presets.ts'
+import { aliasesOf, type Preset, preset, presets } from './presets.ts'
 import { gallery, hasPrint, print } from './sources/art.ts'
 import { compact, languageIcon, type Repo, repo, topRepos } from './sources/github.ts'
 import { icon } from './sources/icons.ts'
@@ -149,6 +149,7 @@ async function metaRoute() {
         slug,
         title,
         group,
+        aliases: aliasesOf(slug),
         print: hasPrint(slug),
       })),
       prints: gallery,

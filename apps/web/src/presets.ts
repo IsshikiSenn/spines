@@ -259,6 +259,11 @@ const aliases: Record<string, string> = {
   hf: 'huggingface',
 }
 
+/** The short names that lead to a preset, so search can find it by them too. */
+export function aliasesOf(slug: string): string[] {
+  return Object.keys(aliases).filter((alias) => aliases[alias] === slug)
+}
+
 export function preset(slug: string): Preset | undefined {
   const key = slug.toLowerCase()
   return bySlug.get(aliases[key] ?? key)

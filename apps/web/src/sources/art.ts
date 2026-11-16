@@ -11,10 +11,12 @@ interface Entry {
 
 const prints: Record<string, Entry> = manifest
 
-export const gallery = Object.entries(prints).map(([slug, { title, group }]) => ({
+export const gallery = Object.entries(prints).map(([slug, { title, group, width, height }]) => ({
   slug,
   title,
   group,
+  width,
+  height,
 }))
 
 export function hasPrint(slug: string): boolean {

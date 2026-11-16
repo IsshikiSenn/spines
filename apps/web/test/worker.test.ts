@@ -211,6 +211,16 @@ describe('the rest', () => {
     expect(meta.prints!.length).toBeGreaterThan(10)
   })
 
+  it('gives search the short names and print sizes it needs', async () => {
+    const meta = (await (await get('/api/meta')).json()) as {
+      badges: { slug: string; aliases: string[] }[]
+      prints: { slug: string; width: number; height: number }[]
+    }
+    expect(meta.badges.find((b) => b.slug === 'typescript')?.aliases).toEqual(['ts'])
+    expect(meta.badges.find((b) => b.slug === 'nodedotjs')?.aliases).toEqual(['node', 'nodejs'])
+    for (const p of meta.prints) expect(p.height).toBeGreaterThan(p.width)
+  })
+
   it('reads shelf items', () => {
     expect(shelfItem('art:Claude')).toEqual({ kind: 'print', slug: 'claude' })
     expect(shelfItem('badge:ts;sub=5.9')).toEqual({
