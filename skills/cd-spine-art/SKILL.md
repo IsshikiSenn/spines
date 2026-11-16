@@ -1,6 +1,6 @@
 ---
 name: cd-spine-art
-description: Design, edit, and assemble personalized CD jewel case spines for apps, album collections, or imaginary releases. Use for CD spine art, jewel case side labels, CD 盒侧脊, or album-spine collages with distinct typography, textures, and brand marks.
+description: Turn apps, albums, or collections into physical CD jewel case spine art (design, edit & assemble). 把 App、专辑或合集设计与拼接成实体 CD 盒侧脊收藏图。
 ---
 
 # CD Spine Art

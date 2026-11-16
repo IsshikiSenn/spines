@@ -2,7 +2,8 @@
 
 # 💿 CD Spine Art (`cd-spine-art`)
 
-**Design, edit, and assemble personalized CD jewel case spines for apps, album collections, or imaginary releases.**
+**Turn apps & albums into physical CD jewel case spine collections.**<br>
+**把 App 与专辑做成复古实体 CD 盒侧脊收藏图。**
 
 [![Skills CLI](https://img.shields.io/badge/skills_cli-compatible-green?style=flat-square)](https://github.com/vercel-labs/skills)
 [![Skill](https://img.shields.io/badge/skill-cd--spine--art-blue?style=flat-square)](skills/cd-spine-art/SKILL.md)
