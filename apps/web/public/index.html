@@ -37,8 +37,7 @@
     <main>
       <section class="hero wrap">
         <h1>Badges with a&nbsp;spine</h1>
-        <p class="lede">Your stack as a shelf of CDs, from one image URL in your README.</p>
-        <figure class="stage dark">
+        <figure class="stage">
           <img
             id="hero"
             alt="A shelf of CD jewel case spines for Claude, Cursor, TypeScript, React and other tools"
@@ -74,7 +73,6 @@
                     aria-autocomplete="list"
                     aria-expanded="false"
                     aria-controls="results"
-                    aria-describedby="search-hint"
                     placeholder="Search tools, or type a title or owner/repo"
                     spellcheck="false"
                     enterkeyhint="done"
@@ -86,10 +84,6 @@
                   <div class="results" id="results" role="listbox" aria-label="Spines" aria-multiselectable="true"></div>
                 </div>
               </div>
-              <p class="hint" id="search-hint">
-                <kbd>↑</kbd><kbd>↓</kbd> to move, <kbd>Enter</kbd> to add, <kbd>⌫</kbd> to take the last one off.
-                Drag a spine to reorder.
-              </p>
               <div class="sr-only" id="announce" role="status" aria-live="polite"></div>
             </div>
             <div class="field" data-for="account">
@@ -126,14 +120,9 @@
           </form>
 
           <div class="result">
-            <figure class="stage dark" id="stage">
-              <div class="segmented stage-toggle" data-choice="readme" role="radiogroup" aria-label="README background" style="--n: 2">
-                <button type="button" role="radio" data-value="dark" aria-checked="true">Dark</button>
-                <button type="button" role="radio" data-value="light" aria-checked="false">Light</button>
-              </div>
+            <figure class="stage" id="stage">
               <div class="stage-art">
-                <img id="preview" alt="Your spine" />
-                <p class="stage-empty" id="empty" hidden>The shelf is empty. Search for a tool to put the first spine on it.</p>
+                <div class="spines" id="preview"></div>
               </div>
             </figure>
             <code class="well" id="md"></code>
@@ -148,14 +137,7 @@
 
       <section id="prints" class="wrap">
         <h2>Prints</h2>
-        <p class="lede">
-          One-off spines made with the
-          <a href="https://github.com/stvlynn/spines/tree/main/skills/cd-spine-art">cd-spine-art</a>
-          skill. Add yours with a pull request to
-          <a href="https://github.com/stvlynn/spines/tree/main/art">art/</a>.
-          Pick one to put it on your shelf.
-        </p>
-        <div class="stage dark gallery" id="gallery"></div>
+        <div class="stage gallery" id="gallery"></div>
       </section>
 
       <section id="api" class="wrap">

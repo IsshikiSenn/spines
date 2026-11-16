@@ -19,7 +19,6 @@ const groupNames = { ai: 'AI', models: 'Models', stack: 'Stack', projects: 'Proj
 
 const state = {
   mode: 'shelf',
-  readme: 'dark',
   /** Spines on the shelf, in order: `{ kind: 'badge' | 'print' | 'repo' | 'title', value, label }`. */
   shelf: [],
   /** Set once the reader picks a layout or length, so adding spines stops changing them. */
@@ -86,24 +85,11 @@ function guesses(query) {
       : null
   if (repo) {
     const value = repo.join('/')
-    out.push({ kind: 'repo', value, label: value, hint: 'GitHub repository, with its stars' })
+    out.push({ kind: 'repo', value, label: value })
   }
   const account = (url && !url[2] && url[1]) || text.match(/^@([\w-]+)$/)?.[1]
-  if (account) {
-    out.push({
-      kind: 'profile',
-      value: account,
-      label: account,
-      hint: 'Shelve their top repositories',
-    })
-  }
-  if (!url)
-    out.push({
-      kind: 'title',
-      value: text.slice(0, 80),
-      label: text.slice(0, 80),
-      hint: 'Typeset as a title',
-    })
+  if (account) out.push({ kind: 'profile', value: account, label: account })
+  if (!url) out.push({ kind: 'title', value: text.slice(0, 80), label: text.slice(0, 80) })
   return out
 }
 
@@ -207,11 +193,7 @@ function renderOption(option, i) {
     label.append(
       el('strong', { textContent: option.kind === 'title' ? `“${option.label}”` : option.label }),
     )
-    li.append(
-      glyph(option.kind),
-      label,
-      el('span', { className: 'option-meta', textContent: option.hint }),
-    )
+    li.append(glyph(option.kind), label)
   }
   li.append(el('span', { className: 'check', 'aria-hidden': 'true' }))
   return li
@@ -289,7 +271,6 @@ function pick(option) {
     clearQuery()
     close()
     setMode('account')
-    say(`Showing ${option.value}’s repositories`)
     return
   }
   const item = {
@@ -392,6 +373,9 @@ document.addEventListener('keydown', (event) => {
 
 // ——— The shelf ———
 
+/** Key of the spine just added, so only it enters; renders after this one leave it still. */
+let fresh = null
+
 function add(item, { quiet = false } = {}) {
   if (has(item)) {
     if (!quiet) say(`${item.label} is already on the shelf`)
@@ -407,7 +391,9 @@ function add(item, { quiet = false } = {}) {
   }
   state.shelf.push(item)
   announce(`Added ${item.label}`)
+  fresh = keyOf(item)
   changed()
+  fresh = null
   return true
 }
 
@@ -436,6 +422,7 @@ function renderTokens() {
     ...state.shelf.map((item, i) => {
       const li = el('li', { className: `token ${item.kind}`, draggable: true })
       li.dataset.index = i
+      if (keyOf(item) === fresh) li.classList.add('enter')
       const entry =
         item.kind === 'badge' || item.kind === 'print'
           ? catalog.find((e) => e.slug === item.value)
@@ -585,11 +572,11 @@ function update({ now = false } = {}) {
   }
 
   const empty = state.mode === 'shelf' && !state.shelf.length
-  document.querySelector('#empty').hidden = !empty
-  preview.hidden = empty
   for (const button of document.querySelectorAll('[data-copy]')) button.disabled = empty
+  clearTimeout(timer)
   if (empty) {
-    document.querySelector('#md').textContent = 'Add a spine to get its Markdown.'
+    document.querySelector('#md').textContent = ''
+    shelve([])
     return
   }
 
@@ -606,19 +593,84 @@ function update({ now = false } = {}) {
   snippets.html = `<img src="${absolute.replace(/&/g, '&amp;')}" alt="${alt.replace(/"/g, '&quot;')}">`
   document.querySelector('#md').textContent = snippets.md
 
-  clearTimeout(timer)
-  timer = setTimeout(
-    () => {
-      if (preview.getAttribute('src') === relative) return
-      preview.classList.add('loading')
-      preview.src = relative
-    },
-    now ? 0 : 250,
-  )
+  const list = spines(relative, alt)
+  const layout = state.layout ?? base.layout
+  const entering = fresh
+  timer = setTimeout(() => shelve(list, { layout, entering }), now ? 0 : 250)
 }
 
-preview.addEventListener('load', () => preview.classList.remove('loading'))
-preview.addEventListener('error', () => preview.classList.remove('loading'))
+/**
+ * The preview draws each spine as its own image, laid out as the server lays out
+ * the shelf, so a spine can arrive or leave while the others stay put. One spine,
+ * or an account's shelf, is the copied URL itself.
+ */
+function spines(relative, alt) {
+  if (state.mode === 'account') return [{ key: 'account', src: relative, alt }]
+  if (state.shelf.length === 1) return [{ key: keyOf(state.shelf[0]), src: relative, alt }]
+  const layout = state.layout ?? STANDING.layout
+  const size = field('size').value
+  return state.shelf.map((item) => {
+    const s = keyOf(item).replaceAll(';', ',')
+    return {
+      key: keyOf(item),
+      src: `/shelf.svg?${new URLSearchParams({ s, layout, size })}`,
+      alt: item.label,
+    }
+  })
+}
+
+function shelve(list, { layout, entering = null } = {}) {
+  if (layout) preview.dataset.layout = layout
+  const current = new Map()
+  for (const node of preview.children) {
+    if (!node.classList.contains('leave')) current.set(node.dataset.key, node)
+  }
+  const nodes = list.map(({ key, src, alt }) => {
+    let img = current.get(key)
+    current.delete(key)
+    if (!img) {
+      img = el('img', { alt, hidden: true, decoding: 'async' })
+      img.dataset.key = key
+      // A new spine waits, unseen, until it can arrive whole.
+      if (key === entering) img.dataset.enter = ''
+      img.addEventListener('load', () => reveal(img))
+      img.addEventListener('error', () => reveal(img))
+      img.addEventListener('animationend', () => img.classList.remove('enter'))
+    }
+    img.alt = alt
+    if (img.getAttribute('src') !== src) {
+      if (!img.hidden) img.classList.add('loading')
+      img.src = src
+    }
+    return img
+  })
+  for (const node of current.values()) leave(node)
+
+  // Move only what is out of order: moving a node restarts its animation.
+  nodes.forEach((node, i) => {
+    let before = node.previousElementSibling
+    while (before?.classList.contains('leave')) before = before.previousElementSibling
+    if (node.isConnected && before === (nodes[i - 1] ?? null)) return
+    if (i === 0) preview.prepend(node)
+    else nodes[i - 1].after(node)
+  })
+}
+
+function reveal(img) {
+  img.classList.remove('loading')
+  if (!img.hidden) return
+  img.hidden = false
+  if ('enter' in img.dataset) img.classList.add('enter')
+  delete img.dataset.enter
+}
+
+function leave(node) {
+  if (node.hidden) return node.remove()
+  node.classList.remove('enter')
+  node.classList.add('leave')
+  node.addEventListener('animationend', () => node.remove())
+  setTimeout(() => node.remove(), 400)
+}
 
 /** Reflects a choice in its segmented control. */
 function show(choice, value) {
@@ -630,11 +682,6 @@ function show(choice, value) {
 function choose(choice, value) {
   state[choice] = value
   show(choice, value)
-  if (choice === 'readme') {
-    const stage = document.querySelector('#stage')
-    stage.classList.toggle('light', value === 'light')
-    stage.classList.toggle('dark', value === 'dark')
-  }
   update({ now: true })
 }
 
@@ -762,10 +809,9 @@ for (const { slug, title } of meta.prints) {
   const entry = catalog.find((e) => e.slug === slug)
   const button = el('button', {
     type: 'button',
-    title: `Put ${title} on your shelf`,
     onclick: () => {
       if (state.mode !== 'shelf') setMode('shelf')
-      if (add({ kind: entry.kind, value: slug, label: title })) say(`${title} is on your shelf`)
+      add({ kind: entry.kind, value: slug, label: title })
     },
   })
   button.append(el('img', { src: `/art/${slug}.webp`, alt: `${title} spine`, loading: 'lazy' }))

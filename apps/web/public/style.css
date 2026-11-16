@@ -1,8 +1,8 @@
 /*
  * Styled to Sunbeam (github.com/AstraFoundry/design): warm paper and ink,
- * yellow for the one primary action, flat controls on the page, and an
- * always-dark substrate stage behind the work. Every color is a token from
- * sunbeam.css; light and dark live there, not here.
+ * yellow for the one primary action, and flat controls on the page. Spines
+ * sit on the page itself. Every color is a token from sunbeam.css; light and
+ * dark live there, not here.
  */
 
 @font-face {
@@ -35,19 +35,8 @@
   --sans: "IBM Plex Sans", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", system-ui, sans-serif;
   --mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --inset: 24px;
-  --stage-radius: 24px;
-}
-@media (min-width: 640px) {
-  :root {
-    --inset: 40px;
-  }
-}
-@media (min-width: 1024px) {
-  :root {
-    --inset: 56px;
-    --stage-radius: 40px;
-  }
+  /* Material 3 standard accelerate: what leaves picks up speed and is gone. */
+  --ease-exit: cubic-bezier(0.3, 0, 1, 1);
 }
 
 *,
@@ -160,66 +149,43 @@ h3 {
   font: 500 20px / 1.3 var(--sans);
   letter-spacing: -0.01em;
 }
-.lede {
-  max-width: 34em;
-  margin: 20px 0 0;
-  color: var(--muted-foreground);
-  font-size: 18px;
-  text-wrap: pretty;
-}
-
 section {
   padding-block: 56px;
 }
 .hero {
   padding-top: clamp(32px, 7vw, 88px);
 }
-section > h2 + :not(.lede) {
-  margin-top: 32px;
-}
-.lede + * {
+.wrap > :is(h1, h2) + * {
   margin-top: 32px;
 }
 
-/* The stage: an always-dark backstage for the work. Its `dark` class gives
-   everything on it dark tokens, whatever the page's scheme. */
+/* Spines sit directly on the page: no card behind the shelf, the preview, or the prints. */
 .stage {
   position: relative;
-  margin-inline: 0;
-  margin-bottom: 0;
-  padding: var(--inset);
-  border-radius: var(--stage-radius);
-  background: var(--substrate);
-  color: var(--substrate-ink);
-  /* A hairline keeps the stage's edge when the page itself is dark. */
-  box-shadow: inset 0 0 0 1px var(--substrate-line);
-  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  background: none;
+  color: inherit;
 }
 .stage img {
   display: block;
 }
 .hero .stage {
   display: grid;
-  gap: var(--inset);
+  gap: 16px;
 }
 .hero .stage img {
   max-width: 100%;
   height: auto;
 }
 .stage figcaption {
-  color: var(--substrate-muted);
+  color: var(--muted-foreground);
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 .stage figcaption code {
   font-size: 13px;
-}
-
-/* A light README is a white card: the stage takes the light scheme whole. */
-.stage.light {
-  background: var(--card);
-  box-shadow: inset 0 0 0 1px var(--border);
 }
 
 /* Maker */
@@ -598,6 +564,7 @@ kbd {
   background: var(--muted);
 }
 .check {
+  grid-column: -2;
   width: 16px;
   height: 16px;
 }
@@ -638,17 +605,8 @@ kbd {
   font: 500 11px / 1 var(--mono);
 }
 
-.hint {
-  margin: 0;
-  color: var(--muted-foreground);
-  font-size: 12px;
-}
-.hint kbd {
-  margin-right: 2px;
-}
 @media (hover: none) {
-  .search kbd,
-  .hint {
+  .search kbd {
     display: none;
   }
 }
@@ -662,13 +620,6 @@ kbd {
   white-space: nowrap;
 }
 
-.stage-empty {
-  max-width: 22em;
-  margin: 0;
-  color: var(--substrate-muted);
-  text-align: center;
-}
-
 .result {
   position: sticky;
   top: 24px;
@@ -676,35 +627,58 @@ kbd {
   gap: 16px;
   min-width: 0;
 }
-#stage {
-  padding: 0;
-}
+/*
+ * Spines line up from the left edge, so one that arrives at the end leaves the
+ * others where they were. Standing spines shrink together to fit the column.
+ */
 .stage-art {
-  display: grid;
-  place-items: center;
-  min-height: 340px;
-  padding: 64px 24px var(--inset);
-  overflow: auto;
+  min-width: 0;
+  overflow-x: clip;
 }
-.stage-art img {
+.spines {
+  display: flex;
+  align-items: flex-end;
+}
+.spines[data-layout="stack"] {
+  flex-direction: column;
+  align-items: flex-start;
+}
+.spines img {
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 100%;
+  height: auto;
   transition: opacity 200ms var(--ease-out);
 }
-.stage-art img.loading {
+.spines img.loading {
   opacity: 0.4;
 }
-.stage-toggle {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 132px;
+
+/* Something added arrives from the right and settles; something removed fades away. */
+@keyframes enter {
+  from {
+    opacity: 0;
+    translate: 20px 0;
+  }
 }
-.stage-toggle button {
-  height: 28px;
-  font-size: 13px;
+@keyframes leave {
+  to {
+    opacity: 0;
+    translate: 6px 0;
+  }
+}
+.spines img.enter,
+.token.enter {
+  animation: enter 250ms var(--ease-out) both;
+}
+.spines img.leave {
+  animation: leave 150ms var(--ease-exit) forwards;
+  pointer-events: none;
 }
 
 .well {
   display: block;
+  min-height: calc(13px * 1.6 + 20px);
   padding: 10px 14px;
   border-radius: 10px;
   background: var(--muted);
@@ -712,6 +686,9 @@ kbd {
   font-size: 13px;
   overflow-x: auto;
   white-space: nowrap;
+}
+.well:empty {
+  display: none;
 }
 .actions {
   display: flex;
@@ -722,7 +699,6 @@ kbd {
 /* Prints */
 .gallery {
   display: flex;
-  padding-block: var(--inset) 0;
   overflow-x: auto;
 }
 .gallery button {
@@ -731,11 +707,10 @@ kbd {
   border: 0;
   background: none;
   cursor: pointer;
-  translate: 0 16px;
   transition: translate 300ms var(--ease-out);
 }
 .gallery button:is(:hover, :focus-visible) {
-  translate: 0 0;
+  translate: 0 -8px;
 }
 .gallery img {
   height: 440px;
@@ -853,5 +828,10 @@ footer {
   *::before,
   *::after {
     transition-duration: 0.01ms;
+  }
+  /* No travel: what arrives or leaves just appears or disappears. */
+  .spines img:is(.enter, .leave),
+  .token.enter {
+    animation-duration: 0.01ms;
   }
 }
