@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test
+      # A pull request that adds a print must also commit what `pnpm art` derives from it.
+      - run: |
+          pnpm art
+          git diff --exit-code -- art/WANTED.md apps/web/src/art.generated.json
+          test -z "$(git ls-files --others --exclude-standard apps/web/public/art)"
+      - run: pnpm --filter @repo/web exec wrangler deploy --dry-run

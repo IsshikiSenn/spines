@@ -1,0 +1,15 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "spines",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-11-01",
+  // Files in public/ are served straight from the edge; the Worker only sees
+  // requests that match no file, which is every badge route.
+  "assets": { "directory": "public", "binding": "ASSETS" },
+  // Each deploy gets a new id; it is part of every cache key, so a deploy
+  // never serves spines drawn by the previous renderer.
+  "version_metadata": { "binding": "VERSION" },
+  "observability": { "enabled": true }
+  // Optional: `wrangler secret put GITHUB_TOKEN` lifts the GitHub API limit
+  // from 60 to 5,000 requests an hour. A token with no scopes is enough.
+}

@@ -1,0 +1,21 @@
+{
+  "name": "@repo/web",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc -p .",
+    "art": "node scripts/build-art.ts"
+  },
+  "dependencies": {
+    "@repo/spine": "workspace:*",
+    "simple-icons": "^16.38.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261116.1",
+    "@types/node": "^22.0.0",
+    "sharp": "^0.34.0",
+    "wrangler": "^4.162.0"
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "chatgpt": {
+    "title": "ChatGPT",
+    "group": "ai",
+    "width": 60,
+    "height": 720
+  },
+  "grok-bot": {
+    "title": "Grok Bot",
+    "group": "ai",
+    "width": 80,
+    "height": 720
+  },
+  "lobehub": {
+    "title": "LobeHub",
+    "group": "ai",
+    "width": 74,
+    "height": 720
+  },
+  "claude": {
+    "title": "Claude",
+    "group": "ai",
+    "width": 72,
+    "height": 720
+  },
+  "cursor": {
+    "title": "Cursor",
+    "group": "ai",
+    "width": 49,
+    "height": 720
+  },
+  "alma": {
+    "title": "Alma",
+    "group": "projects",
+    "width": 60,
+    "height": 720
+  },
+  "arion": {
+    "title": "Arion",
+    "group": "projects",
+    "width": 70,
+    "height": 720
+  },
+  "memoh": {
+    "title": "Memoh",
+    "group": "projects",
+    "width": 62,
+    "height": 720
+  },
+  "mole": {
+    "title": "Mole",
+    "group": "projects",
+    "width": 54,
+    "height": 720
+  },
+  "nowledge-mem": {
+    "title": "Nowledge Mem",
+    "group": "projects",
+    "width": 80,
+    "height": 720
+  },
+  "obelisk": {
+    "title": "Obelisk",
+    "group": "projects",
+    "width": 49,
+    "height": 720
+  },
+  "lody": {
+    "title": "lody",
+    "group": "projects",
+    "width": 52,
+    "height": 720
+  },
+  "magpie": {
+    "title": "magpie",
+    "group": "projects",
+    "width": 64,
+    "height": 720
+  },
+  "pinky": {
+    "title": "pinky",
+    "group": "projects",
+    "width": 68,
+    "height": 720
+  },
+  "powercontext": {
+    "title": "powercontext",
+    "group": "projects",
+    "width": 56,
+    "height": 720
+  },
+  "typescript": {
+    "title": "TypeScript",
+    "group": "stack",
+    "width": 64,
+    "height": 720
+  }
+}

@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Spines — README badges shaped like CD jewel case spines</title>
+    <meta
+      name="description"
+      content="Badges for your README and GitHub profile, drawn as CD jewel case spines. Common tools ready-made, any title typeset, any repository shelved."
+    />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="/fonts/fraunces-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/sunbeam.css" />
+    <link rel="stylesheet" href="/style.css" />
+    <script>
+      // Sunbeam switches the whole token set with one class; follow the system.
+      {
+        const dark = matchMedia('(prefers-color-scheme: dark)')
+        const apply = () => document.documentElement.classList.toggle('dark', dark.matches)
+        dark.addEventListener('change', apply)
+        apply()
+      }
+    </script>
+  </head>
+  <body>
+    <header class="top wrap">
+      <a class="brand" href="/">Spines</a>
+      <nav>
+        <a href="#make">Make</a>
+        <a href="#prints">Prints</a>
+        <a href="#api">API</a>
+        <a href="https://github.com/stvlynn/cd-spine-art-skill">GitHub</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero wrap">
+        <h1>Badges with a&nbsp;spine</h1>
+        <p class="lede">Your stack as a shelf of CDs, from one image URL in your README.</p>
+        <figure class="stage dark">
+          <img
+            id="hero"
+            alt="A shelf of CD jewel case spines for Claude, Cursor, TypeScript, React and other tools"
+            width="560"
+            height="480"
+          />
+          <figcaption><code id="hero-url"></code></figcaption>
+        </figure>
+      </section>
+
+      <section id="make" class="wrap">
+        <h2>Make one</h2>
+        <div class="maker">
+          <form id="form" autocomplete="off">
+            <div class="segmented" role="tablist" aria-label="Kind of spine" style="--n: 5">
+              <button type="button" role="tab" data-mode="badge" aria-selected="true">Badges</button>
+              <button type="button" role="tab" data-mode="spine" aria-selected="false">Title</button>
+              <button type="button" role="tab" data-mode="repo" aria-selected="false">Repo</button>
+              <button type="button" role="tab" data-mode="account" aria-selected="false">Profile</button>
+              <button type="button" role="tab" data-mode="shelf" aria-selected="false">Shelf</button>
+            </div>
+
+            <div class="field" data-for="badge">
+              <label for="badges">Names</label>
+              <input id="badges" name="badges" value="typescript,react,docker,claude" spellcheck="false" />
+              <div class="chips" id="chips"></div>
+            </div>
+            <div class="field" data-for="spine">
+              <label for="title">Title</label>
+              <input id="title" name="title" value="Hello, World" maxlength="80" />
+            </div>
+            <div class="field" data-for="repo">
+              <label for="repo">Repository</label>
+              <input id="repo" name="repo" value="cloudflare/workers-sdk" placeholder="owner/repo" spellcheck="false" />
+            </div>
+            <div class="field" data-for="account">
+              <label for="account">User or organization</label>
+              <input id="account" name="account" value="cloudflare" placeholder="octocat" spellcheck="false" />
+            </div>
+            <div class="field" data-for="account">
+              <label for="count">Repositories <output name="countOut">8</output></label>
+              <input id="count" name="count" type="range" min="1" max="12" value="8" />
+            </div>
+            <div class="field" data-for="shelf">
+              <label for="items">One spine per line</label>
+              <textarea id="items" name="items" rows="6" spellcheck="false">Hello, World;theme=clay
+badge:typescript
+gh:cloudflare/workers-sdk
+art:claude</textarea>
+            </div>
+
+            <div class="field" data-for="badge spine repo account">
+              <span class="label" id="theme-label">Theme</span>
+              <div id="themes" class="swatches" role="group" aria-labelledby="theme-label"></div>
+            </div>
+
+            <div class="pair" data-for="badge spine repo">
+              <div class="field">
+                <label for="sub">Catalog line</label>
+                <input id="sub" name="sub" placeholder="v1.0" maxlength="40" />
+              </div>
+              <div class="field">
+                <label for="icon">Icon</label>
+                <input id="icon" name="icon" placeholder="github" spellcheck="false" />
+              </div>
+            </div>
+
+            <div class="field" data-for="badge spine repo account">
+              <span class="label" id="width-label">Case</span>
+              <div class="segmented" data-choice="width" role="radiogroup" aria-labelledby="width-label" style="--n: 3">
+                <button type="button" role="radio" data-value="slim" aria-checked="false">Slim</button>
+                <button type="button" role="radio" data-value="regular" aria-checked="true">Regular</button>
+                <button type="button" role="radio" data-value="wide" aria-checked="false">Wide</button>
+              </div>
+            </div>
+
+            <div class="field">
+              <span class="label" id="layout-label">Layout</span>
+              <div class="segmented" data-choice="layout" role="radiogroup" aria-labelledby="layout-label" style="--n: 2">
+                <button type="button" role="radio" data-value="stack" aria-checked="true">Lying down</button>
+                <button type="button" role="radio" data-value="row" aria-checked="false">Standing</button>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="size">Length <output name="sizeOut">420</output> px</label>
+              <input id="size" name="size" type="range" min="200" max="900" step="10" value="420" />
+            </div>
+          </form>
+
+          <div class="result">
+            <figure class="stage dark" id="stage">
+              <div class="segmented stage-toggle" data-choice="readme" role="radiogroup" aria-label="README background" style="--n: 2">
+                <button type="button" role="radio" data-value="dark" aria-checked="true">Dark</button>
+                <button type="button" role="radio" data-value="light" aria-checked="false">Light</button>
+              </div>
+              <div class="stage-art"><img id="preview" alt="Your spine" /></div>
+            </figure>
+            <code class="well" id="md"></code>
+            <div class="actions">
+              <button type="button" class="button primary" data-copy="md">Copy Markdown</button>
+              <button type="button" class="button" data-copy="html">Copy HTML</button>
+              <button type="button" class="button" data-copy="url">Copy URL</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="prints" class="wrap">
+        <h2>Prints</h2>
+        <p class="lede">
+          One-off spines made with the
+          <a href="https://github.com/stvlynn/cd-spine-art-skill/tree/main/skills/cd-spine-art">cd-spine-art</a>
+          skill. Add yours with a pull request to
+          <a href="https://github.com/stvlynn/cd-spine-art-skill/tree/main/art">art/</a>.
+        </p>
+        <div class="stage dark gallery" id="gallery"></div>
+      </section>
+
+      <section id="api" class="wrap">
+        <h2>API</h2>
+        <div class="rows">
+          <div><code>/badge/<var>name</var>,<var>name</var>.svg</code><span>Ready-made spines for common tools. One lies down, several stand.</span></div>
+          <div><code>/spine/<var>title</var>.svg</code><span>Any title, typeset.</span></div>
+          <div><code>/gh/<var>owner</var>/<var>repo</var>.svg</code><span>A repository with its stars and language.</span></div>
+          <div><code>/gh/<var>owner</var>.svg</code><span>An account's most-starred repositories. <code>count</code> 1–12.</span></div>
+          <div><code>/art/<var>name</var>,<var>name</var>.svg</code><span>Prints from the gallery.</span></div>
+          <div><code>/shelf.svg?s=<var>item</var>&amp;s=<var>item</var></code><span>Up to 24 of any kind: a title, <code>badge:name</code>, <code>gh:owner/repo</code> or <code>art:name</code>, each with <code>;key=value</code> options.</span></div>
+        </div>
+        <h3>Options</h3>
+        <div class="rows">
+          <div><code>theme</code><span id="theme-list"></span></div>
+          <div><code>sub</code><span>The catalog line at the foot.</span></div>
+          <div><code>icon</code><span>A <a href="https://simpleicons.org">Simple Icons</a> slug, or <code>none</code>.</span></div>
+          <div><code>paper</code> <code>ink</code> <code>accent</code><span>Hex colors, without the <code>#</code>.</span></div>
+          <div><code>width</code><span><code>slim</code> <code>regular</code> <code>wide</code></span></div>
+          <div><code>layout</code><span><code>stack</code> lying down, <code>row</code> standing.</span></div>
+          <div><code>size</code><span>Length in pixels, 120–2400.</span></div>
+          <div><code>gap</code><span>Space between spines, 0–24.</span></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="wrap">
+      <span>Brand marks from Simple Icons belong to their owners.</span>
+      <a href="https://github.com/stvlynn/cd-spine-art-skill">Source</a>
+    </footer>
+
+    <div class="toast" id="toast" role="status"></div>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>
