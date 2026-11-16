@@ -21,14 +21,13 @@ This repository holds everything behind it:
 | [`art`](art) | Prints: one finished spine image per tool or project. [Contributions welcome](art/README.md). |
 | [`skills/cd-spine-art`](skills/cd-spine-art) | The agent skill that draws prints with an image model. |
 
-> The site is not deployed under a public address yet. The examples below use
-> `https://YOUR-DOMAIN`; see [Deploy](#deploy).
+Live at [spine.stv.pm](https://spine.stv.pm).
 
 ## Use a badge
 
 ```md
-![TypeScript](https://YOUR-DOMAIN/badge/typescript.svg)
-![My stack](https://YOUR-DOMAIN/badge/typescript,react,docker,claude.svg)
+![TypeScript](https://spine.stv.pm/badge/typescript.svg)
+![My stack](https://spine.stv.pm/badge/typescript,react,docker,claude.svg)
 ```
 
 One name lies down like a badge. Several stand side by side on a shelf.

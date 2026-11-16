@@ -21,14 +21,13 @@
 | [`art`](art) | 成品图:每个工具或项目一张独立的侧脊图片。[欢迎贡献](art/README.md)。 |
 | [`skills/cd-spine-art`](skills/cd-spine-art) | 用生图模型绘制成品图的 Agent Skill。 |
 
-> 站点还没有部署到公开地址。下面的示例用 `https://YOUR-DOMAIN` 代替,
-> 部署方法见[部署](#部署)。
+访问 [spine.stv.pm](https://spine.stv.pm)。
 
 ## 使用徽章
 
 ```md
-![TypeScript](https://YOUR-DOMAIN/badge/typescript.svg)
-![My stack](https://YOUR-DOMAIN/badge/typescript,react,docker,claude.svg)
+![TypeScript](https://spine.stv.pm/badge/typescript.svg)
+![My stack](https://spine.stv.pm/badge/typescript,react,docker,claude.svg)
 ```
 
 写一个名字,侧脊横放,像普通徽章。写多个名字,它们竖着并排成一排。
