@@ -53,26 +53,44 @@
         <h2>Make one</h2>
         <div class="maker">
           <form id="form" autocomplete="off">
-            <div class="segmented" role="tablist" aria-label="Kind of spine" style="--n: 5">
-              <button type="button" role="tab" data-mode="badge" aria-selected="true">Badges</button>
-              <button type="button" role="tab" data-mode="spine" aria-selected="false">Title</button>
-              <button type="button" role="tab" data-mode="repo" aria-selected="false">Repo</button>
-              <button type="button" role="tab" data-mode="account" aria-selected="false">Profile</button>
-              <button type="button" role="tab" data-mode="shelf" aria-selected="false">Shelf</button>
+            <div class="segmented" role="tablist" aria-label="What to shelve" style="--n: 2">
+              <button type="button" role="tab" data-mode="shelf" aria-selected="true">Pick spines</button>
+              <button type="button" role="tab" data-mode="account" aria-selected="false">GitHub profile</button>
             </div>
 
-            <div class="field" data-for="badge">
-              <label for="badges">Names</label>
-              <input id="badges" name="badges" value="typescript,react,docker,claude" spellcheck="false" />
-              <div class="chips" id="chips"></div>
-            </div>
-            <div class="field" data-for="spine">
-              <label for="title">Title</label>
-              <input id="title" name="title" value="Hello, World" maxlength="80" />
-            </div>
-            <div class="field" data-for="repo">
-              <label for="repo">Repository</label>
-              <input id="repo" name="repo" value="cloudflare/workers-sdk" placeholder="owner/repo" spellcheck="false" />
+            <div class="field" data-for="shelf">
+              <label for="search">On the shelf <output id="tally"></output></label>
+              <div class="picker" id="picker">
+                <ul class="tokens" id="tokens" aria-label="Spines on the shelf, in order"></ul>
+                <div class="search">
+                  <svg viewBox="0 0 16 16" aria-hidden="true">
+                    <circle cx="7" cy="7" r="4.5" />
+                    <path d="m10.5 10.5 3 3" />
+                  </svg>
+                  <input
+                    id="search"
+                    type="text"
+                    role="combobox"
+                    aria-autocomplete="list"
+                    aria-expanded="false"
+                    aria-controls="results"
+                    aria-describedby="search-hint"
+                    placeholder="Search tools, or type a title or owner/repo"
+                    spellcheck="false"
+                    enterkeyhint="done"
+                  />
+                  <kbd aria-hidden="true">/</kbd>
+                </div>
+                <div class="popup" id="popup" hidden>
+                  <div class="facets" id="facets" role="group" aria-label="Filter by group"></div>
+                  <div class="results" id="results" role="listbox" aria-label="Spines" aria-multiselectable="true"></div>
+                </div>
+              </div>
+              <p class="hint" id="search-hint">
+                <kbd>↑</kbd><kbd>↓</kbd> to move, <kbd>Enter</kbd> to add, <kbd>⌫</kbd> to take the last one off.
+                Drag a spine to reorder.
+              </p>
+              <div class="sr-only" id="announce" role="status" aria-live="polite"></div>
             </div>
             <div class="field" data-for="account">
               <label for="account">User or organization</label>
@@ -82,15 +100,7 @@
               <label for="count">Repositories <output name="countOut">8</output></label>
               <input id="count" name="count" type="range" min="1" max="12" value="8" />
             </div>
-            <div class="field" data-for="shelf">
-              <label for="items">One spine per line</label>
-              <textarea id="items" name="items" rows="6" spellcheck="false">Hello, World
-badge:typescript
-gh:cloudflare/workers-sdk
-art:claude</textarea>
-            </div>
-
-            <div class="pair" data-for="badge spine repo">
+            <div class="pair" data-for="single">
               <div class="field">
                 <label for="sub">Catalog line</label>
                 <input id="sub" name="sub" placeholder="v1.0" maxlength="40" />
@@ -121,7 +131,10 @@ art:claude</textarea>
                 <button type="button" role="radio" data-value="dark" aria-checked="true">Dark</button>
                 <button type="button" role="radio" data-value="light" aria-checked="false">Light</button>
               </div>
-              <div class="stage-art"><img id="preview" alt="Your spine" /></div>
+              <div class="stage-art">
+                <img id="preview" alt="Your spine" />
+                <p class="stage-empty" id="empty" hidden>The shelf is empty. Search for a tool to put the first spine on it.</p>
+              </div>
             </figure>
             <code class="well" id="md"></code>
             <div class="actions">
@@ -140,6 +153,7 @@ art:claude</textarea>
           <a href="https://github.com/stvlynn/spines/tree/main/skills/cd-spine-art">cd-spine-art</a>
           skill. Add yours with a pull request to
           <a href="https://github.com/stvlynn/spines/tree/main/art">art/</a>.
+          Pick one to put it on your shelf.
         </p>
         <div class="stage dark gallery" id="gallery"></div>
       </section>
