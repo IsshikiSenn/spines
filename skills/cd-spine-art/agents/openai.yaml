@@ -1,0 +1,13 @@
+interface:
+  display_name: CD Spine Art
+  short_description: Design and assemble CD jewel case spines
+  default_prompt: Use $cd-spine-art to turn these apps into a CD jewel case collection.
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas
+  allow_implicit_invocation: true
