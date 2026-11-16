@@ -16,7 +16,40 @@ interface ApiRepo {
   archived: boolean
 }
 
+/** A pull request, with the language of the repository it targets for its mark. */
+export interface Pull {
+  owner: string
+  repo: string
+  number: number
+  title: string
+  language: string | null
+}
+
+interface ApiPull {
+  number: number
+  title: string
+  base: { repo: { name: string; owner: { login: string }; language: string | null } }
+}
+
 const NAME = /^[\w.-]{1,100}$/
+
+export async function pull(owner: string, name: string, number: number, env: Env): Promise<Pull> {
+  if (!NAME.test(owner) || !NAME.test(name)) throw new HttpError(400, 'not a repository name')
+  if (!Number.isSafeInteger(number) || number < 1) {
+    throw new HttpError(400, 'not a pull request number')
+  }
+  return remember(`gh/pull/${owner}/${name}/${number}`.toLowerCase(), 3600, async () => {
+    const p = await api<ApiPull>(`/repos/${owner}/${name}/pulls/${number}`, env)
+    const { repo } = p.base
+    return {
+      owner: repo.owner.login,
+      repo: repo.name,
+      number: p.number,
+      title: p.title,
+      language: repo.language,
+    }
+  })
+}
 
 export async function repo(owner: string, name: string, env: Env): Promise<Repo> {
   if (!NAME.test(owner) || !NAME.test(name)) throw new HttpError(400, 'not a repository name')

@@ -3,12 +3,22 @@ import { type Env, HttpError, json, svg, ttl } from './http.ts'
 import { options, type ShelfItem, type Style, shelfItem, spine, styleFrom } from './params.ts'
 import { aliasesOf, type Preset, preset, presets } from './presets.ts'
 import { gallery, hasPrint, print } from './sources/art.ts'
-import { compact, languageIcon, type Repo, repo, topRepos } from './sources/github.ts'
+import {
+  compact,
+  languageIcon,
+  type Pull,
+  pull,
+  type Repo,
+  repo,
+  topRepos,
+} from './sources/github.ts'
 import { icon } from './sources/icons.ts'
 
 const MAX_SHELF = 24
-/** Each repository costs up to two subrequests (GitHub, then its icon). */
+/** Each repository or pull request costs up to two subrequests (GitHub, then its icon). */
 const MAX_REPOS = 12
+/** Longest `repo #123` foot line set at full size on every width; past it the number stands alone. */
+const FOOT = 20
 
 /** One spine lies down like a badge; several stand on a shelf. */
 const LYING = { layout: 'stack', length: 420 } as const
@@ -28,6 +38,7 @@ const routes: [RegExp, Handler][] = [
   [/^\/spine\/([^/]+)$/, spineRoute],
   [/^\/art\/([^/]+)$/, artRoute],
   [/^\/shelf$/, shelfRoute],
+  [/^\/gh\/([^/]+)\/([^/]+)\/pull\/(\d{1,10})$/, pullRoute],
   [/^\/gh\/([^/]+)\/([^/]+)$/, repoRoute],
   [/^\/gh\/([^/]+)$/, accountRoute],
   [/^\/api\/meta$/, metaRoute],
@@ -111,11 +122,12 @@ async function shelfRoute({ url, env }: Context) {
     throw new HttpError(400, `a shelf holds ${MAX_SHELF} spines at most`)
 
   const parsed = entries.map(shelfItem)
-  if (parsed.filter((item) => item.kind === 'repo').length > MAX_REPOS) {
-    throw new HttpError(400, `a shelf reads ${MAX_REPOS} repositories at most`)
+  const reads = parsed.filter((item) => item.kind === 'repo' || item.kind === 'pull').length
+  if (reads > MAX_REPOS) {
+    throw new HttpError(400, `a shelf reads ${MAX_REPOS} repositories or pull requests at most`)
   }
   const items = await Promise.all(parsed.map((item) => resolve(item, env, url.origin)))
-  const live = parsed.some((item) => item.kind === 'repo')
+  const live = reads > 0
   return svg(render(items, options(url.searchParams, STANDING)), live ? ttl.live : ttl.static)
 }
 
@@ -123,6 +135,13 @@ async function shelfRoute({ url, env }: Context) {
 async function repoRoute({ url, env }: Context, owner: string, name: string) {
   const style = styleFrom((key) => url.searchParams.get(key))
   const item = await repoSpine(await repo(owner, name, env), style)
+  return svg(render([item], options(url.searchParams, LYING)), ttl.live)
+}
+
+/** `/gh/:owner/:repo/pull/:number` — a pull request: its title, and its number at the foot. */
+async function pullRoute({ url, env }: Context, owner: string, name: string, number: string) {
+  const style = styleFrom((key) => url.searchParams.get(key))
+  const item = await pullSpine(await pull(owner, name, Number(number), env), style)
   return svg(render([item], options(url.searchParams, LYING)), ttl.live)
 }
 
@@ -166,6 +185,8 @@ function resolve(item: ShelfItem, env: Env, origin: string): Promise<Item> {
       return badge(item.slug, item.style, env, origin)
     case 'repo':
       return repo(item.owner, item.name, env).then((r) => repoSpine(r, item.style))
+    case 'pull':
+      return pull(item.owner, item.name, item.number, env).then((p) => pullSpine(p, item.style))
     case 'spine':
       return withIcon(spine(item.title, item.style), item.style.icon)
   }
@@ -196,6 +217,13 @@ function repoSpine(r: Repo, style: Style): Promise<Spine> {
   const sub = style.sub ?? (r.stars > 0 ? `★ ${compact(r.stars)}` : (r.language ?? r.owner))
   const mark = style.icon ?? (r.language ? languageIcon[r.language] : undefined)
   return withIcon(spine(r.name, { ...style, sub }), mark)
+}
+
+function pullSpine(p: Pull, style: Style): Promise<Spine> {
+  const foot = `${p.repo} #${p.number}`
+  const sub = style.sub ?? (foot.length <= FOOT ? foot : `#${p.number}`)
+  const mark = style.icon ?? (p.language ? languageIcon[p.language] : undefined) ?? 'github'
+  return withIcon(spine(p.title, { ...style, sub }), mark)
 }
 
 /** `icon=none` drops a default mark. */

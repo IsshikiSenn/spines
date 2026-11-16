@@ -35,8 +35,24 @@
   --sans: "IBM Plex Sans", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", system-ui, sans-serif;
   --mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Material 3 emphasized decelerate: arrives at speed and comes softly to rest, no overshoot. */
+  --ease-in-place: cubic-bezier(0.05, 0.7, 0.1, 1);
   /* Material 3 standard accelerate: what leaves picks up speed and is gone. */
   --ease-exit: cubic-bezier(0.3, 0, 1, 1);
+
+  /*
+   * Every shelf is cases standing in one plane, seen slightly from the left.
+   * Zeroed for reduced motion, which leaves the shelf flat and still.
+   */
+  --shelf-depth: 1400px;
+  --shelf-angle: 9deg;
+  /* How far a pointed-at case comes forward, and how far its neighbours turn aside. */
+  --lift: 40px;
+  --lean: 4deg;
+  /* Where an added case starts: off to the right, turned further than the shelf. */
+  --arrive-x: 20px;
+  --arrive-turn: 18deg;
+  --depart-turn: 6deg;
 }
 
 *,
@@ -85,7 +101,7 @@ var,
   font: 400 14px / 1.6 var(--mono);
   font-style: normal;
 }
-:not(.well, figcaption) > code {
+:not(.well) > code {
   padding: 2px 6px;
   border-radius: 6px;
   background: var(--muted);
@@ -153,10 +169,13 @@ section {
   padding-block: 56px;
 }
 .hero {
-  padding-top: clamp(32px, 7vw, 88px);
+  padding-block: clamp(32px, 7vw, 88px) clamp(24px, 4vw, 40px);
 }
 .wrap > :is(h1, h2) + * {
   margin-top: 32px;
+}
+.hero h1 + .stage {
+  margin-top: clamp(32px, 5vw, 56px);
 }
 
 /* Spines sit directly on the page: no card behind the shelf, the preview, or the prints. */
@@ -169,23 +188,6 @@ section {
 }
 .stage img {
   display: block;
-}
-.hero .stage {
-  display: grid;
-  gap: 16px;
-}
-.hero .stage img {
-  max-width: 100%;
-  height: auto;
-}
-.stage figcaption {
-  color: var(--muted-foreground);
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-.stage figcaption code {
-  font-size: 13px;
 }
 
 /* Maker */
@@ -628,52 +630,99 @@ kbd {
   min-width: 0;
 }
 /*
- * Spines line up from the left edge, so one that arrives at the end leaves the
- * others where they were. Standing spines shrink together to fit the column.
+ * One perspective for every shelf on the page. Spines line up from the left
+ * edge, so one that arrives at the end leaves the others where they were, and
+ * standing spines shrink together to fit the column. The plane they stand in is
+ * turned once, so they share its vanishing point.
  */
-.stage-art {
+.scene {
   min-width: 0;
+  perspective: var(--shelf-depth);
+  perspective-origin: 0 40%;
   overflow-x: clip;
 }
-.spines {
+.shelf {
   display: flex;
   align-items: flex-end;
+  transform-origin: 0 50%;
+  transform: rotateY(var(--shelf-angle));
+  transform-style: preserve-3d;
 }
-.spines[data-layout="stack"] {
+.shelf[data-layout="stack"] {
   flex-direction: column;
   align-items: flex-start;
 }
-.spines img {
+
+/*
+ * A case is the spine's place on the shelf: it never moves under the pointer,
+ * so hovering stays steady while the image inside comes forward.
+ */
+.case {
+  /* What the case adds to the plane's angle; a shelf that is not turned turns each case. */
+  --tilt: 0deg;
+  display: block;
+  transform-style: preserve-3d;
+  transition: opacity 200ms var(--ease-out);
+}
+.shelf .case {
   flex: 0 1 auto;
   min-width: 0;
   max-width: 100%;
-  height: auto;
-  transition: opacity 200ms var(--ease-out);
 }
-.spines img.loading {
+.shelf .case img {
+  max-width: 100%;
+  height: auto;
+}
+.case img {
+  transform: rotateY(var(--tilt));
+  transition: transform 280ms var(--ease-in-place);
+}
+.case img:focus-visible {
+  outline-offset: 0;
+}
+/* Neighbours turn aside, but a case that is itself pointed at or focused still comes out. */
+.case:has(+ :where(.case:is(:hover, :focus-visible, :has(> :focus-visible)))) img {
+  transform: rotateY(calc(var(--tilt) + var(--lean)));
+}
+:where(.case:is(:hover, :focus-visible, :has(> :focus-visible))) + .case img {
+  transform: rotateY(calc(var(--tilt) - var(--lean)));
+}
+/* Turned flat to the reader first, so it then comes straight out, not along the shelf. */
+.case:is(:hover, :focus-visible, :has(> :focus-visible)) img {
+  transform: rotateY(calc(var(--tilt) - var(--shelf-angle))) translateZ(var(--lift));
+}
+.case.loading {
   opacity: 0.4;
 }
 
-/* Something added arrives from the right and settles; something removed fades away. */
-@keyframes enter {
+/* Something added arrives from the right and settles into the shelf; something removed fades. */
+@keyframes arrive {
+  from {
+    opacity: 0;
+    transform: translateX(var(--arrive-x)) rotateY(var(--arrive-turn));
+  }
+}
+@keyframes depart {
+  to {
+    opacity: 0;
+    transform: rotateY(var(--depart-turn));
+  }
+}
+@keyframes token-enter {
   from {
     opacity: 0;
     translate: 20px 0;
   }
 }
-@keyframes leave {
-  to {
-    opacity: 0;
-    translate: 6px 0;
-  }
+.case.enter {
+  animation: arrive 320ms var(--ease-in-place) both;
 }
-.spines img.enter,
-.token.enter {
-  animation: enter 250ms var(--ease-out) both;
-}
-.spines img.leave {
-  animation: leave 150ms var(--ease-exit) forwards;
+.case.leave {
+  animation: depart 150ms var(--ease-exit) forwards;
   pointer-events: none;
+}
+.token.enter {
+  animation: token-enter 250ms var(--ease-out) both;
 }
 
 .well {
@@ -696,21 +745,28 @@ kbd {
   gap: 8px;
 }
 
-/* Prints */
+/*
+ * Prints: a row that scrolls cannot be one turned plane (its far end would
+ * recede out of sight), so each case takes the shelf's angle itself.
+ */
 .gallery {
   display: flex;
+  padding-block: 16px;
   overflow-x: auto;
 }
-.gallery button {
+.gallery .case {
+  --tilt: var(--shelf-angle);
   flex: none;
   padding: 0;
   border: 0;
   background: none;
   cursor: pointer;
-  transition: translate 300ms var(--ease-out);
 }
-.gallery button:is(:hover, :focus-visible) {
-  translate: 0 -8px;
+.gallery .case:focus-visible {
+  outline: none;
+}
+.gallery .case:focus-visible img {
+  outline: 2px solid var(--ring);
 }
 .gallery img {
   height: 440px;
@@ -821,6 +877,15 @@ footer {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  /* No travel and no turn: the shelf stands flat, and what arrives or leaves just appears or goes. */
+  :root {
+    --shelf-angle: 0deg;
+    --lift: 0px;
+    --lean: 0deg;
+    --arrive-x: 0px;
+    --arrive-turn: 0deg;
+    --depart-turn: 0deg;
+  }
   html {
     scroll-behavior: auto;
   }
@@ -829,8 +894,7 @@ footer {
   *::after {
     transition-duration: 0.01ms;
   }
-  /* No travel: what arrives or leaves just appears or disappears. */
-  .spines img:is(.enter, .leave),
+  .case:is(.enter, .leave),
   .token.enter {
     animation-duration: 0.01ms;
   }

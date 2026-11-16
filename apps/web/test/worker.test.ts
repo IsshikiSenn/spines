@@ -1,4 +1,5 @@
 import { readFile } from 'node:fs/promises'
+import { render } from '@repo/spine'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import type { Env } from '../src/http.ts'
 import worker from '../src/index.ts'
@@ -39,6 +40,22 @@ function network(routes: Record<string, () => Response>) {
     return match[1]()
   })
   return calls
+}
+
+const hono = {
+  name: 'hono',
+  owner: { login: 'honojs' },
+  stargazers_count: 26543,
+  language: 'TypeScript',
+  fork: false,
+  archived: false,
+}
+
+const hono4321 = {
+  number: 4321,
+  title: 'Add streaming helpers',
+  state: 'open',
+  base: { repo: hono },
 }
 
 afterEach(() => vi.unstubAllGlobals())
@@ -171,9 +188,87 @@ describe('/shelf', () => {
     const query = Array.from({ length: 25 }, (_, i) => `s=${i}`).join('&')
     expect((await get(`/shelf?${query}`)).status).toBe(400)
   })
+
+  it('shelves a pull request beside its repository', async () => {
+    const calls = network({
+      'https://api.github.com/repos/honojs/hono/pulls/4321': () => Response.json(hono4321),
+      'https://api.github.com/repos/honojs/hono': () => Response.json(hono),
+    })
+    const response = await get('/shelf.svg?s=gh:honojs/hono&s=pr:honojs/hono/4321')
+    expect(response.status).toBe(200)
+    expect(response.headers.get('cache-control')).toContain('max-age=3600')
+    expect(await response.text()).toContain('aria-label="hono, Add streaming helpers"')
+    expect(calls.sort()).toEqual([
+      'https://api.github.com/repos/honojs/hono',
+      'https://api.github.com/repos/honojs/hono/pulls/4321',
+    ])
+  })
+
+  it('counts pull requests among the GitHub reads it caps', async () => {
+    const calls = network({})
+    const query = Array.from({ length: 13 }, (_, i) => `s=pr:a/b/${i + 1}`).join('&')
+    expect((await get(`/shelf?${query}`)).status).toBe(400)
+    expect(calls).toEqual([])
+  })
 })
 
 describe('/gh', () => {
+  it('draws one repository lying down', async () => {
+    const calls = network({ 'https://api.github.com/repos/honojs/hono': () => Response.json(hono) })
+    const response = await get('/gh/honojs/hono.svg')
+    expect(response.status).toBe(200)
+    expect(response.headers.get('cache-control')).toContain('max-age=3600')
+    const svg = await response.text()
+    expect(svg).toContain('aria-label="hono"')
+    const { width, height } = dims(svg)
+    expect(width).toBeGreaterThan(height)
+    expect(calls).toEqual(['https://api.github.com/repos/honojs/hono'])
+  })
+
+  it('draws a pull request: its title, with the repository and number at the foot', async () => {
+    const calls = network({
+      'https://api.github.com/repos/honojs/hono/pulls/4321': () => Response.json(hono4321),
+    })
+    const response = await get('/gh/honojs/hono/pull/4321.svg')
+    expect(response.status).toBe(200)
+    expect(response.headers.get('cache-control')).toContain('max-age=3600')
+    const svg = await response.text()
+    expect(svg).toContain('aria-label="Add streaming helpers"')
+    const icon = { path: preset('typescript')!.icon.path }
+    const drawn = (sub: string) =>
+      render([{ title: 'Add streaming helpers', sub, icon }], { layout: 'stack', length: 420 })
+    expect(svg).toBe(drawn('hono #4321'))
+    expect(svg).not.toBe(drawn('#4321'))
+    expect(calls).toEqual(['https://api.github.com/repos/honojs/hono/pulls/4321'])
+  })
+
+  it('keeps the number when the repository name would crowd it out', async () => {
+    const long = { ...hono, name: 'a-rather-long-repository', language: null }
+    network({
+      'https://api.github.com/repos/me/a-rather-long-repository/pulls/7': () =>
+        Response.json({ number: 7, title: 'Fix the build', base: { repo: long } }),
+    })
+    const svg = await (await get('/gh/me/a-rather-long-repository/pull/7.svg')).text()
+    const icon = { path: preset('github')!.icon.path }
+    expect(svg).toBe(
+      render([{ title: 'Fix the build', sub: '#7', icon }], { layout: 'stack', length: 420 }),
+    )
+  })
+
+  it('says when a pull request does not exist', async () => {
+    network({ 'https://api.github.com/': () => new Response('', { status: 404 }) })
+    const response = await get('/gh/honojs/hono/pull/999999.svg')
+    expect(response.status).toBe(404)
+    expect(await response.text()).toContain('aria-label="not found on GitHub"')
+  })
+
+  it('turns a rate limit on a pull request into a readable badge', async () => {
+    network({ 'https://api.github.com/': () => new Response('', { status: 429 }) })
+    const response = await get('/gh/honojs/hono/pull/1.svg')
+    expect(response.status).toBe(503)
+    expect(await response.text()).toContain('rate limit')
+  })
+
   it('turns GitHub rate limits into a readable badge', async () => {
     network({ 'https://api.github.com/': () => new Response('', { status: 403 }) })
     const response = await get('/gh/someone/something')
@@ -231,6 +326,16 @@ describe('the rest', () => {
     expect(shelfItem('gh:a/b;theme=clay')).toMatchObject({ kind: 'repo', owner: 'a', name: 'b' })
     expect(shelfItem('Just a title')).toEqual({ kind: 'spine', title: 'Just a title', style: {} })
     expect(() => shelfItem('gh:nope')).toThrow()
+    expect(shelfItem('pr:honojs/hono/4321;theme=clay')).toEqual({
+      kind: 'pull',
+      owner: 'honojs',
+      name: 'hono',
+      number: 4321,
+      style: { theme: 'clay' },
+    })
+    expect(() => shelfItem('pr:honojs/hono')).toThrow()
+    expect(() => shelfItem('pr:honojs/hono/abc')).toThrow()
+    expect(() => shelfItem('pr:honojs/hono/1/2')).toThrow()
   })
 
   it('abbreviates counts the way GitHub does', () => {

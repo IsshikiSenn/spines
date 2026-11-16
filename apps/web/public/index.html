@@ -37,14 +37,13 @@
     <main>
       <section class="hero wrap">
         <h1>Badges with a&nbsp;spine</h1>
-        <figure class="stage">
-          <img
+        <figure class="stage scene">
+          <div
+            class="shelf"
             id="hero"
-            alt="A shelf of CD jewel case spines for Claude, Cursor, TypeScript, React and other tools"
-            width="560"
-            height="480"
-          />
-          <figcaption><code id="hero-url"></code></figcaption>
+            role="group"
+            aria-label="A shelf of CD jewel case spines for Claude, Cursor, TypeScript, React and other tools"
+          ></div>
         </figure>
       </section>
 
@@ -120,16 +119,15 @@
           </form>
 
           <div class="result">
-            <figure class="stage" id="stage">
-              <div class="stage-art">
-                <div class="spines" id="preview"></div>
-              </div>
+            <figure class="stage scene">
+              <div class="shelf" id="preview" role="group" aria-label="Preview"></div>
             </figure>
             <code class="well" id="md"></code>
             <div class="actions">
               <button type="button" class="button primary" data-copy="md">Copy Markdown</button>
               <button type="button" class="button" data-copy="html">Copy HTML</button>
               <button type="button" class="button" data-copy="url">Copy URL</button>
+              <button type="button" class="button" data-copy="skill">Copy skill</button>
             </div>
           </div>
         </div>
@@ -137,7 +135,7 @@
 
       <section id="prints" class="wrap">
         <h2>Prints</h2>
-        <div class="stage gallery" id="gallery"></div>
+        <div class="stage scene gallery" id="gallery"></div>
       </section>
 
       <section id="api" class="wrap">
@@ -146,6 +144,7 @@
           <div><code>/badge/<var>name</var>,<var>name</var>.svg</code><span>Ready-made spines for common tools. One lies down, several stand.</span></div>
           <div><code>/spine/<var>title</var>.svg</code><span>Any title, typeset.</span></div>
           <div><code>/gh/<var>owner</var>/<var>repo</var>.svg</code><span>A repository with its stars and language.</span></div>
+          <div><code>/gh/<var>owner</var>/<var>repo</var>/pull/<var>number</var>.svg</code><span>A pull request: its title, and its number at the foot. On a shelf, <code>pr:owner/repo/number</code>.</span></div>
           <div><code>/gh/<var>owner</var>.svg</code><span>An account's most-starred repositories. <code>count</code> 1–12.</span></div>
           <div><code>/art/<var>name</var>,<var>name</var>.svg</code><span>Prints from the gallery.</span></div>
           <div><code>/shelf.svg?s=<var>item</var>&amp;s=<var>item</var></code><span>Up to 24 of any kind: a title, <code>badge:name</code>, <code>gh:owner/repo</code> or <code>art:name</code>, each with <code>;key=value</code> options.</span></div>

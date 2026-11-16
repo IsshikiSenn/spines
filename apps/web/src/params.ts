@@ -63,12 +63,14 @@ export function options(
  *
  *   Hello World;theme=noir;sub=v2     a typeset spine
  *   gh:honojs/hono;theme=clay         a repository, read from GitHub
+ *   pr:honojs/hono/4321               a pull request, read from GitHub
  *   art:claude                        a print from the gallery
  *   badge:typescript;sub=5.9          a preset for a common tool or language
  */
 export type ShelfItem =
   | { kind: 'spine'; title: string; style: Style }
   | { kind: 'repo'; owner: string; name: string; style: Style }
+  | { kind: 'pull'; owner: string; name: string; number: number; style: Style }
   | { kind: 'print'; slug: string }
   | { kind: 'badge'; slug: string; style: Style }
 
@@ -89,6 +91,12 @@ export function shelfItem(entry: string): ShelfItem {
     if (!owner || !name || rest.length)
       throw new HttpError(400, `expected gh:owner/repo, got ${head}`)
     return { kind: 'repo', owner, name, style }
+  }
+  if (head.startsWith('pr:')) {
+    const [owner, name, number, ...rest] = head.slice(3).split('/')
+    if (!owner || !name || !/^\d{1,10}$/.test(number ?? '') || rest.length)
+      throw new HttpError(400, `expected pr:owner/repo/number, got ${head}`)
+    return { kind: 'pull', owner, name, number: Number(number), style }
   }
   return { kind: 'spine', title: head, style }
 }

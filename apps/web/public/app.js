@@ -19,7 +19,7 @@ const groupNames = { ai: 'AI', models: 'Models', stack: 'Stack', projects: 'Proj
 
 const state = {
   mode: 'shelf',
-  /** Spines on the shelf, in order: `{ kind: 'badge' | 'print' | 'repo' | 'title', value, label }`. */
+  /** Spines on the shelf, in order: `{ kind: 'badge' | 'print' | 'repo' | 'pr' | 'title', value, label }`. */
   shelf: [],
   /** Set once the reader picks a layout or length, so adding spines stops changing them. */
   layout: undefined,
@@ -34,8 +34,10 @@ const state = {
 let catalog = []
 
 const keyOf = (item) =>
-  ({ badge: 'badge:', print: 'art:', repo: 'gh:', title: '' })[item.kind] + item.value
+  ({ badge: 'badge:', print: 'art:', repo: 'gh:', pr: 'pr:', title: '' })[item.kind] + item.value
 const has = (item) => state.shelf.some((other) => keyOf(other) === keyOf(item))
+/** Repositories and pull requests are read from GitHub, so the server caps them together. */
+const reads = (item) => item.kind === 'repo' || item.kind === 'pr'
 
 // ——— Search ———
 
@@ -71,23 +73,25 @@ function inOrder(needle, haystack) {
   return at === needle.length
 }
 
-/** Text that isn't in the catalog can still be shelved: a repository, a profile, or a title. */
+/**
+ * Text that isn't in the catalog can still be shelved: a pull request
+ * (`owner/repo#123` or its GitHub URL), a repository, a profile, or a title.
+ */
 function guesses(query) {
   const text = query.trim()
   if (!text) return []
   const out = []
-  const url = text.match(/^(?:https?:\/\/)?(?:www\.)?github\.com\/([\w.-]+)(?:\/([\w.-]+))?/i)
-  const slash = text.match(/^([\w-]+)\/([\w.-]+)$/)
-  const repo = url?.[2]
-    ? [url[1], url[2].replace(/\.git$/, '')]
-    : slash
-      ? [slash[1], slash[2]]
-      : null
-  if (repo) {
-    const value = repo.join('/')
-    out.push({ kind: 'repo', value, label: value })
+  const url = text.match(
+    /^(?:https?:\/\/)?(?:www\.)?github\.com\/([\w.-]+)(?:\/([\w.-]+)(?:\/pull\/(\d{1,10}))?)?/i,
+  )
+  const short = text.match(/^([\w-]+)\/([\w.-]+?)(?:#(\d{1,10}))?$/)
+  const [, owner, name, number] = url ?? short ?? []
+  if (owner && name) {
+    const repo = `${owner}/${name.replace(/\.git$/, '')}`
+    if (number) out.push({ kind: 'pr', value: `${repo}/${number}`, label: `${repo}#${number}` })
+    else out.push({ kind: 'repo', value: repo, label: repo })
   }
-  const account = (url && !url[2] && url[1]) || text.match(/^@([\w-]+)$/)?.[1]
+  const account = (url && !name && owner) || text.match(/^@([\w-]+)$/)?.[1]
   if (account) out.push({ kind: 'profile', value: account, label: account })
   if (!url) out.push({ kind: 'title', value: text.slice(0, 80), label: text.slice(0, 80) })
   return out
@@ -235,7 +239,7 @@ function thumb(entry) {
 }
 
 function glyph(kind) {
-  const text = { repo: 'gh:', profile: '@', title: 'Aa' }[kind] ?? ''
+  const text = { repo: 'gh:', pr: 'pr:', profile: '@', title: 'Aa' }[kind] ?? ''
   return el('span', { className: 'thumb glyph', 'aria-hidden': 'true', textContent: text })
 }
 
@@ -385,8 +389,8 @@ function add(item, { quiet = false } = {}) {
     say(`A shelf holds ${MAX_SHELF} spines at most`)
     return false
   }
-  if (item.kind === 'repo' && state.shelf.filter((i) => i.kind === 'repo').length >= MAX_REPOS) {
-    say(`A shelf reads ${MAX_REPOS} repositories at most`)
+  if (reads(item) && state.shelf.filter(reads).length >= MAX_REPOS) {
+    say(`A shelf reads ${MAX_REPOS} repositories or pull requests at most`)
     return false
   }
   state.shelf.push(item)
@@ -527,6 +531,10 @@ function path() {
     return `/spine/${encodeURIComponent(shelf[0].value)}.svg`
   if (shelf.length === 1 && shelf[0].kind === 'repo')
     return `/gh/${shelf[0].value.split('/').map(encodeURIComponent).join('/')}.svg`
+  if (shelf.length === 1 && shelf[0].kind === 'pr') {
+    const [owner, name, number] = shelf[0].value.split('/').map(encodeURIComponent)
+    return `/gh/${owner}/${name}/pull/${number}.svg`
+  }
   return '/shelf.svg'
 }
 
@@ -576,7 +584,7 @@ function update({ now = false } = {}) {
   clearTimeout(timer)
   if (empty) {
     document.querySelector('#md').textContent = ''
-    shelve([])
+    shelve(preview, [])
     return
   }
 
@@ -591,12 +599,73 @@ function update({ now = false } = {}) {
   snippets.url = absolute
   snippets.md = `![${alt.replace(/[[\]]/g, '')}](${absolute})`
   snippets.html = `<img src="${absolute.replace(/&/g, '&amp;')}" alt="${alt.replace(/"/g, '&quot;')}">`
+  snippets.skill = skill(absolute)
   document.querySelector('#md').textContent = snippets.md
 
   const list = spines(relative, alt)
   const layout = state.layout ?? base.layout
   const entering = fresh
-  timer = setTimeout(() => shelve(list, { layout, entering }), now ? 0 : 250)
+  timer = setTimeout(() => shelve(preview, list, { layout, entering }), now ? 0 : 250)
+}
+
+/** Shelf items, run together for a heading or a description: at most four names. */
+function listed(labels) {
+  const shown = labels.length > 4 ? [...labels.slice(0, 3), `${labels.length - 3} more`] : labels
+  return new Intl.ListFormat('en', { type: 'conjunction' }).format(shown)
+}
+
+/**
+ * A skill name from the shelf: lowercase words joined by single hyphens, at
+ * most 64 characters, and without the words Claude reserves for its own skills.
+ */
+function skillName(labels) {
+  const words = labels
+    .join(' ')
+    .normalize('NFKD')
+    .toLowerCase()
+    .replace(/anthropic|claude/g, ' ')
+    .split(/[^a-z0-9]+/)
+    .filter(Boolean)
+  const room = 64 - '-shelf'.length
+  let name = ''
+  for (const word of new Set(words)) {
+    const next = name ? `${name}-${word}` : word.slice(0, room)
+    if (next.length > room) break
+    name = next
+  }
+  return `${name || 'spines'}-shelf`
+}
+
+/** A YAML scalar: plain when that reads the same, double-quoted when it would not. */
+const yaml = (text) =>
+  /^[\w(]/.test(text) && !/: | #|\s$/.test(text) ? text : JSON.stringify(text)
+
+/** An Agent Skill (agentskills.io) describing this shelf, for an agent to find and redraw it. */
+function skill(url) {
+  const account = state.mode === 'account' && (field('account').value.trim() || 'octocat')
+  const labels = state.shelf.map((item) => item.label)
+  const title = account ? `${account} on GitHub` : listed(labels)
+  const what = account
+    ? `A shelf of CD jewel case spine badges for the most-starred repositories of ${account} on GitHub.`
+    : `A shelf of CD jewel case spine badges for ${title}.`
+  const when =
+    'Use when adding this shelf to a README or profile, or when changing, reordering or redrawing its spines.'
+  const items = account
+    ? [`- The ${field('count').value} most-starred repositories of \`${account}\``]
+    : state.shelf.map((item) => `- ${item.label} (\`${keyOf(item).replaceAll(';', ',')}\`)`)
+  return [
+    '---',
+    `name: ${skillName(account ? [account, 'github'] : labels)}`,
+    `description: ${yaml(`${what} ${when}`.replace(/[<>]/g, ''))}`,
+    '---',
+    '',
+    `# ${title}`,
+    '',
+    ...items,
+    '',
+    `Use the cd-spine-art skill in \`skills/cd-spine-art\` when drawing or replacing a print. The badge URL for this shelf is \`${url}\`.`,
+    '',
+  ].join('\n')
 }
 
 /**
@@ -619,30 +688,38 @@ function spines(relative, alt) {
   })
 }
 
-function shelve(list, { layout, entering = null } = {}) {
-  if (layout) preview.dataset.layout = layout
+/**
+ * Puts spines on a shelf, each a case holding its image. The case stays where
+ * it stands and takes the pointer; the image inside comes forward. Only the
+ * spine named by `entering` animates in.
+ */
+function shelve(shelf, list, { layout, entering = null } = {}) {
+  if (layout) shelf.dataset.layout = layout
   const current = new Map()
-  for (const node of preview.children) {
+  for (const node of shelf.children) {
     if (!node.classList.contains('leave')) current.set(node.dataset.key, node)
   }
   const nodes = list.map(({ key, src, alt }) => {
-    let img = current.get(key)
+    let node = current.get(key)
     current.delete(key)
-    if (!img) {
-      img = el('img', { alt, hidden: true, decoding: 'async' })
-      img.dataset.key = key
+    if (!node) {
+      node = el('span', { className: 'case', hidden: true })
+      node.dataset.key = key
       // A new spine waits, unseen, until it can arrive whole.
-      if (key === entering) img.dataset.enter = ''
-      img.addEventListener('load', () => reveal(img))
-      img.addEventListener('error', () => reveal(img))
-      img.addEventListener('animationend', () => img.classList.remove('enter'))
+      if (key === entering) node.dataset.enter = ''
+      const img = el('img', { decoding: 'async', tabIndex: -1 })
+      img.addEventListener('load', () => reveal(node))
+      img.addEventListener('error', () => reveal(node))
+      node.addEventListener('animationend', () => node.classList.remove('enter'))
+      node.append(img)
     }
+    const img = node.firstElementChild
     img.alt = alt
     if (img.getAttribute('src') !== src) {
-      if (!img.hidden) img.classList.add('loading')
+      if (!node.hidden) node.classList.add('loading')
       img.src = src
     }
-    return img
+    return node
   })
   for (const node of current.values()) leave(node)
 
@@ -651,25 +728,68 @@ function shelve(list, { layout, entering = null } = {}) {
     let before = node.previousElementSibling
     while (before?.classList.contains('leave')) before = before.previousElementSibling
     if (node.isConnected && before === (nodes[i - 1] ?? null)) return
-    if (i === 0) preview.prepend(node)
+    if (i === 0) shelf.prepend(node)
     else nodes[i - 1].after(node)
   })
+  rove(shelf)
 }
 
-function reveal(img) {
-  img.classList.remove('loading')
-  if (!img.hidden) return
-  img.hidden = false
-  if ('enter' in img.dataset) img.classList.add('enter')
-  delete img.dataset.enter
+function reveal(node) {
+  node.classList.remove('loading')
+  if (!node.hidden) return
+  node.hidden = false
+  if ('enter' in node.dataset) node.classList.add('enter')
+  delete node.dataset.enter
+  if (node.parentElement) rove(node.parentElement)
 }
 
 function leave(node) {
   if (node.hidden) return node.remove()
   node.classList.remove('enter')
   node.classList.add('leave')
-  node.addEventListener('animationend', () => node.remove())
-  setTimeout(() => node.remove(), 400)
+  node.querySelector('img').tabIndex = -1
+  const gone = () => {
+    const shelf = node.parentElement
+    node.remove()
+    if (shelf) rove(shelf)
+  }
+  node.addEventListener('animationend', gone)
+  setTimeout(gone, 400)
+}
+
+/** The spine a reader last moved to on each shelf; until then, its first. */
+const stops = new WeakMap()
+
+/** A shelf is one tab stop; the arrow keys walk its spines (roving tabindex). */
+function rove(shelf, to) {
+  const spines = [...shelf.querySelectorAll('.case:not([hidden], .leave) > img')]
+  if (to) stops.set(shelf, to)
+  const chosen = stops.get(shelf)
+  const stop = spines.includes(chosen) ? chosen : spines[0]
+  for (const img of spines) img.tabIndex = img === stop ? 0 : -1
+  return spines
+}
+
+/** Lets the keyboard walk a shelf, and remembers where a click or a step left it. */
+function walkable(shelf) {
+  shelf.addEventListener('keydown', walk)
+  shelf.addEventListener('focusin', (event) => rove(shelf, event.target.closest('img')))
+}
+
+function walk(event) {
+  const step = { ArrowLeft: -1, ArrowUp: -1, ArrowRight: 1, ArrowDown: 1 }[event.key]
+  const edge = { Home: 0, End: -1 }[event.key]
+  if (step === undefined && edge === undefined) return
+  const shelf = event.currentTarget
+  const spines = rove(shelf)
+  const at = spines.indexOf(event.target)
+  if (at < 0) return
+  event.preventDefault()
+  const next =
+    edge === undefined
+      ? spines[Math.min(spines.length - 1, Math.max(0, at + step))]
+      : spines.at(edge)
+  next.focus()
 }
 
 /** Reflects a choice in its segmented control. */
@@ -714,6 +834,8 @@ document.addEventListener('click', (event) => {
   if (kind) copy(snippets[kind])
 })
 
+walkable(preview)
+
 const toast = document.querySelector('#toast')
 let toastTimer
 function say(message) {
@@ -746,23 +868,34 @@ function el(tag, props = {}) {
   return node
 }
 
-// The hero is a real shelf; its caption is the URL that drew it.
-const heroUrl =
-  '/shelf.svg?' +
-  ['art:chatgpt', 'badge:claude', 'badge:cursor', 'badge:typescript', 'badge:go', 'badge:react']
-    .concat([
-      'art:magpie',
-      'badge:docker',
-      'art:pinky',
-      'badge:rust',
-      'art:lobehub',
-      'badge:python',
-    ])
-    .concat(['art:arion', 'badge:cloudflare', 'art:mole'])
-    .map((item) => `s=${item}`)
-    .join('&')
-document.querySelector('#hero').src = `${heroUrl}&size=480`
-document.querySelector('#hero-url').textContent = heroUrl
+// The hero is a real shelf, drawn spine by spine as the preview is.
+const hero = document.querySelector('#hero')
+walkable(hero)
+shelve(
+  hero,
+  [
+    ['art:chatgpt', 'ChatGPT'],
+    ['badge:claude', 'Claude'],
+    ['badge:cursor', 'Cursor'],
+    ['badge:typescript', 'TypeScript'],
+    ['badge:go', 'Go'],
+    ['badge:react', 'React'],
+    ['art:magpie', 'magpie'],
+    ['badge:docker', 'Docker'],
+    ['art:pinky', 'pinky'],
+    ['badge:rust', 'Rust'],
+    ['art:lobehub', 'LobeHub'],
+    ['badge:python', 'Python'],
+    ['art:arion', 'Arion'],
+    ['badge:cloudflare', 'Cloudflare'],
+    ['art:mole', 'Mole'],
+  ].map(([s, alt]) => ({
+    key: s,
+    alt,
+    src: `/shelf.svg?${new URLSearchParams({ s, size: 480 })}`,
+  })),
+  { layout: 'row' },
+)
 
 // Themes, badges and prints come from the server, so this page never drifts from it.
 const meta = await fetch('/api/meta').then((r) => r.json())
@@ -809,6 +942,7 @@ for (const { slug, title } of meta.prints) {
   const entry = catalog.find((e) => e.slug === slug)
   const button = el('button', {
     type: 'button',
+    className: 'case',
     onclick: () => {
       if (state.mode !== 'shelf') setMode('shelf')
       add({ kind: entry.kind, value: slug, label: title })
