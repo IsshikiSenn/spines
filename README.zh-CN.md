@@ -49,6 +49,12 @@
 
 ---
 
+## 工作流程
+
+将纸张肌理、封面视觉、既有侧脊样本及核实过的品牌标识作为参考图接入生图节点。每次在纯黑宽幅画布（如 `3840×1280`）上以最高画质生成一条横贯画面全宽的正视透明 CD 盒侧脊。后续若需调整某一张，只需针对该单张生成结果继续对话修改，其余成品保持不变。最后按像素紧贴盒体裁切掉黑边、顺时针旋转 90° 竖立，通过拼接脚本合成为等高对齐的收藏架成图。
+
+---
+
 ## 核心效果与特性
 
 `cd-spine-art` 会引导 AI Agent 完成从品牌考据、独立美术指导到高精度裁切拼合的完整工作流：
@@ -56,7 +62,7 @@
 - **真实品牌标识考据**：针对真实 App 或开源项目，先从官网或官方仓库检索并核对真实 Logo / 图形标识作为参考输入，避免凭空捏造图标。
 - **逐张定制美术风格**：根据每个主题的气质，独立设计纸张材质（做旧羊皮纸、工程方格纸、撕纸拼贴、漫画网点、拉丝金属、磨损黑卡等）、色彩搭配、字体排版与盒体宽度（默认 `3600 px` 高度下约 `244–400 px` 宽）。
 - **统一的实体塑料盒物理质感**：所有侧脊保持一致的正视无透视透明 CD 盒结构——清晰的透明导轨、上下两端完整的注塑卡扣、微妙的纸张折痕与外壳磨损，确保排成一排时严丝合缝。
-- **像素级裁切与自动合集拼接**：内置 `scripts/assemble.py`，自动裁掉外部黑边间隔、顺时针旋转横向原图、统一缩放到相同高度（默认 `3600 px`），一次输出完整书架横幅 `collection.png`、单张高清 PNG 以及打包好的 `spines.zip`。
+- **像素级裁切与自动合集拼接**：内置 `scripts/assemble.py`，自动裁掉外部纯黑背景、将横向原图顺时针旋转 90°、统一缩放到相同高度（默认 `3600 px`），一次输出完整书架横幅 `collection.png`、单张高清 PNG 以及打包好的 `spines.zip`。
 - **增量扩充收藏**：新增或修改单张侧脊时保留已有导出成品，只重绘新增或需调整的条目。
 
 ---
@@ -87,10 +93,10 @@ npx skills add stvlynn/cd-spine-art-skill --list
 
 ### 运行依赖
 
-- **图像生成工具**：Agent 需具备生图能力以绘制新的侧脊原图（若已有现成侧脊图片，仅做裁切与拼接则无需生图工具）。
+- **支持参考图的图像生成工具**：Agent 需具备接收参考图的生图能力以绘制新的侧脊原图（若已有现成侧脊图片，仅做裁切与拼接则无需生图工具）。
 - **Python 3 + Pillow**：用于执行自动裁切与拼接脚本：
   ```bash
-  pip install Pillow
+  pip install -r skills/cd-spine-art/scripts/requirements.txt
   ```
 
 ---
@@ -114,9 +120,10 @@ python3 skills/cd-spine-art/scripts/assemble.py manifest.json output --height 36
 ```json
 [
   {
-    "name": "ChatGPT",
-    "image": "sheet_01.png",
-    "crop": [40, 0, 340, 3600]
+    "name": "The_Poles",
+    "image": "sheets/the-poles.png",
+    "crop": [80, 430, 3760, 850],
+    "rotate": 90
   },
   {
     "name": "Cursor",
@@ -148,5 +155,6 @@ python3 skills/cd-spine-art/scripts/assemble.py manifest.json output --height 36
         ├── assets/
         │   └── icon.svg              # Skill 图标
         └── scripts/
-            └── assemble.py           # 裁切、旋转、等高缩放与拼接脚本
+            ├── assemble.py           # 裁切、旋转、等高缩放与拼接脚本
+            └── requirements.txt      # Pillow
 ```

@@ -49,6 +49,12 @@ Turn your favorite AI apps, developer tools, music albums, or creative projects 
 
 ---
 
+## Workflow
+
+Feed look references—such as paper textures, album art, prior spines, and verified app marks—into your image tool's generation node. Generate one straight-on CD jewel case spine at a time, lying horizontally across the full width of a wide black canvas (such as `3840×1280`) at maximum quality. To revise a spine later, prompt an edit on that single generation while keeping the rest of the set untouched. Finally, measure tight pixel crops around each case, rotate horizontal strips 90° clockwise, and run `scripts/assemble.py` to stitch a uniform shelf collection.
+
+---
+
 ## What It Does
 
 `cd-spine-art` guides an AI agent through art-directing and assembling realistic CD jewel case side labels:
@@ -56,7 +62,7 @@ Turn your favorite AI apps, developer tools, music albums, or creative projects 
 - **Authentic Brand & Visual Research**: Retrieves and visually verifies genuine logos/marks from official websites or repositories before generating artwork, avoiding hallucinated icons.
 - **Bespoke Art Direction per Spine**: Independently tailors paper stock (parchment, grid paper, torn collage, halftone manga, brushed metal, distressed black), color palette, typography, and case width (`244–400 px` at `3600 px` height) to fit each subject's personality.
 - **Consistent Physical Construction**: Keeps every spine grounded in the same straight-on transparent plastic jewel case aesthetic—clear rails, molded end tabs, subtle paper/plastic wear, and zero perspective distortion—so any set lines up cleanly on a shelf.
-- **Precision Cropping & Shelf Assembly**: Includes `scripts/assemble.py` to strip exterior gutters, rotate horizontal source strips, normalize heights (default `3600 px`), and export both a composite `collection.png` and a `spines.zip` archive of individual high-res PNGs.
+- **Precision Cropping & Shelf Assembly**: Includes `scripts/assemble.py` to crop out the black background, rotate horizontal source strips 90° clockwise, normalize heights (default `3600 px`), and export a composite `collection.png`, individual high-res PNGs, and `spines.zip`.
 - **Incremental Collection Updates**: Retains existing spine exports when adding or editing items so you can grow a collection without regenerating everything.
 
 ---
@@ -87,10 +93,10 @@ npx skills add stvlynn/cd-spine-art-skill --list
 
 ### Runtime Requirements
 
-- An agent/environment with **image generation** capability (for generating new spine sheets; existing spine images can still be cropped and assembled without it).
+- An agent/environment with an **image tool that accepts reference images** (for generating new spines; existing spine artwork can still be cropped and assembled without it).
 - **Python 3** with **Pillow** installed for running the assembly script:
   ```bash
-  pip install Pillow
+  pip install -r skills/cd-spine-art/scripts/requirements.txt
   ```
 
 ---
@@ -116,9 +122,10 @@ Example `manifest.json`:
 ```json
 [
   {
-    "name": "ChatGPT",
-    "image": "sheet_01.png",
-    "crop": [40, 0, 340, 3600]
+    "name": "The_Poles",
+    "image": "sheets/the-poles.png",
+    "crop": [80, 430, 3760, 850],
+    "rotate": 90
   },
   {
     "name": "Cursor",
@@ -150,5 +157,6 @@ Outputs written to `output/`:
         ├── assets/
         │   └── icon.svg              # Skill icon
         └── scripts/
-            └── assemble.py           # Crop, rotate, resize & shelf-assembly script
+            ├── assemble.py           # Crop, rotate, resize & shelf-assembly script
+            └── requirements.txt      # Pillow
 ```

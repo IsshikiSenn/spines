@@ -1,9 +1,9 @@
 interface:
-  display_name: CD Spine Art
-  short_description: Design & assemble CD spines | 生成与拼接实体 CD 盒侧脊
-  default_prompt: Use $cd-spine-art to turn these apps into a CD jewel case collection.
-  icon_small: assets/icon.svg
-  icon_large: assets/icon.svg
+  display_name: "CD Spine Art"
+  short_description: "Generate CD jewel case spines | 生成与拼接 CD 盒侧脊"
+  default_prompt: "Use $cd-spine-art with my reference images to design a jewel-case spine for each title and assemble the collection."
+  icon_small: "assets/icon.svg"
+  icon_large: "assets/icon.svg"
 policy:
   products:
   - chatgpt
