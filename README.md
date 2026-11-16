@@ -90,10 +90,10 @@ pnpm run deploy
 ```
 
 This runs `wrangler deploy` for [`apps/web`](apps/web/wrangler.jsonc). Log in
-first with `pnpm --filter @repo/web exec wrangler login`, or connect the
-repository to Workers Builds with `apps/web` as the root directory.
-[`deploy.yml`](.github/workflows/deploy.yml) deploys on every push to `main`
-once `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` are set as secrets.
+first with `pnpm --filter @repo/web exec wrangler login`. The `spines` Worker
+serves `spine.stv.pm` and uses Workers Builds to deploy pushes to `main`.
+The build root is `apps/web`, the build command is `pnpm -w test`, and the
+deploy command is `pnpm exec wrangler deploy`. Builds use Node.js 22.
 
 GitHub routes read the GitHub API without a token, which allows 60 requests an
 hour. To raise that to 5,000, store a token with no scopes:

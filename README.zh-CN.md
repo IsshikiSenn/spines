@@ -89,9 +89,10 @@ pnpm run deploy
 ```
 
 这会对 [`apps/web`](apps/web/wrangler.jsonc) 执行 `wrangler deploy`。先用
-`pnpm --filter @repo/web exec wrangler login` 登录,或者把仓库接入 Workers Builds,
-根目录填 `apps/web`。配置好 `CLOUDFLARE_API_TOKEN` 和 `CLOUDFLARE_ACCOUNT_ID`
-两个 secret 后,[`deploy.yml`](.github/workflows/deploy.yml) 会在每次推送到 `main` 时自动部署。
+`pnpm --filter @repo/web exec wrangler login` 登录。`spines` Worker 绑定
+`spine.stv.pm`，通过 Workers Builds 自动部署 `main` 分支的推送。
+构建根目录为 `apps/web`，构建命令为 `pnpm -w test`，部署命令为
+`pnpm exec wrangler deploy`，Node.js 版本为 22。
 
 GitHub 相关路由默认不带 token 访问 GitHub API,每小时限 60 次。存一个不带任何权限的
 token 可以提高到 5,000 次:
