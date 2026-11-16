@@ -25,3 +25,5 @@ jobs:
           git diff --exit-code -- art/WANTED.md apps/web/src/art.generated.json
           test -z "$(git ls-files --others --exclude-standard apps/web/public/art)"
       - run: pnpm --filter @repo/web exec wrangler deploy --dry-run
+        env:
+          GTM_ID: ${{ vars.GTM_ID }}

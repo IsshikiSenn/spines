@@ -94,6 +94,22 @@ pnpm run deploy
 构建根目录为 `apps/web`，构建命令为 `pnpm -w test`，部署命令为
 `pnpm exec wrangler deploy`，Node.js 版本为 22。
 
+
+首页模板为 `apps/web/index.html`，Wrangler 在开发或部署前生成静态的
+`public/index.html`。通过可选构建环境变量 `GTM_ID` 启用 Google Tag Manager；
+不设置则不注入统计代码。容器内需要已发布的 Google Analytics 标签才会采集 GA 数据。
+
+用 GitHub CLI 配置仓库变量：
+
+```bash
+gh variable set GTM_ID --repo stvlynn/spines --body YOUR_GTM_CONTAINER_ID
+```
+
+CI 读取 `${{ vars.GTM_ID }}`。Workers Builds 与 GitHub Actions 独立运行，
+因此还需在 Worker 的 **设置 → 构建 → 变量和机密** 配置同值的 `GTM_ID`，
+更换容器时同步修改两处。本地部署可以直接读取 GitHub 变量：
+`GTM_ID="$(gh variable get GTM_ID --repo stvlynn/spines)" pnpm run deploy`。
+
 GitHub 相关路由默认不带 token 访问 GitHub API,每小时限 60 次。存一个不带任何权限的
 token 可以提高到 5,000 次:
 

@@ -95,6 +95,23 @@ serves `spine.stv.pm` and uses Workers Builds to deploy pushes to `main`.
 The build root is `apps/web`, the build command is `pnpm -w test`, and the
 deploy command is `pnpm exec wrangler deploy`. Builds use Node.js 22.
 
+
+The home page template is `apps/web/index.html`; Wrangler generates the static
+`public/index.html` before dev or deployment. Set the optional `GTM_ID` build
+environment variable to enable Google Tag Manager; leave it unset to omit tracking.
+The container must have a published Google Analytics tag to collect GA data.
+
+Configure the GitHub repository variable with:
+
+```bash
+gh variable set GTM_ID --repo stvlynn/spines --body YOUR_GTM_CONTAINER_ID
+```
+
+CI reads `${{ vars.GTM_ID }}`. Workers Builds runs separately from GitHub Actions,
+so set the same `GTM_ID` under the Worker's **Settings → Builds → Variables and
+secrets** too (and update both when changing the container). For a local deploy:
+`GTM_ID="$(gh variable get GTM_ID --repo stvlynn/spines)" pnpm run deploy`.
+
 GitHub routes read the GitHub API without a token, which allows 60 requests an
 hour. To raise that to 5,000, store a token with no scopes:
 

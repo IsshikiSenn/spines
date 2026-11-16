@@ -11,3 +11,6 @@ __pycache__/
 .venv/
 venv/
 .eval/
+
+# Built from apps/web/index.html with optional GTM_ID
+/apps/web/public/index.html
