@@ -35,10 +35,88 @@
     "width": 82,
     "height": 720
   },
+  "dify": {
+    "title": "Dify",
+    "group": "ai",
+    "width": 91,
+    "height": 720
+  },
+  "googlegemini": {
+    "title": "Gemini",
+    "group": "ai",
+    "width": 89,
+    "height": 720
+  },
+  "huggingface": {
+    "title": "Hugging Face",
+    "group": "ai",
+    "width": 106,
+    "height": 720
+  },
   "langchain": {
     "title": "LangChain",
     "group": "ai",
     "width": 89,
+    "height": 720
+  },
+  "mistralai": {
+    "title": "Mistral AI",
+    "group": "ai",
+    "width": 78,
+    "height": 720
+  },
+  "n8n": {
+    "title": "n8n",
+    "group": "ai",
+    "width": 109,
+    "height": 720
+  },
+  "ollama": {
+    "title": "Ollama",
+    "group": "ai",
+    "width": 93,
+    "height": 720
+  },
+  "openrouter": {
+    "title": "OpenRouter",
+    "group": "ai",
+    "width": 83,
+    "height": 720
+  },
+  "glm": {
+    "title": "GLM",
+    "group": "models",
+    "width": 90,
+    "height": 720
+  },
+  "gemma": {
+    "title": "Gemma",
+    "group": "models",
+    "width": 71,
+    "height": 720
+  },
+  "kimi": {
+    "title": "Kimi",
+    "group": "models",
+    "width": 106,
+    "height": 720
+  },
+  "llama": {
+    "title": "Llama",
+    "group": "models",
+    "width": 83,
+    "height": 720
+  },
+  "qwen": {
+    "title": "Qwen",
+    "group": "models",
+    "width": 86,
+    "height": 720
+  },
+  "gpt-oss": {
+    "title": "gpt-oss",
+    "group": "models",
+    "width": 71,
     "height": 720
   },
   "alma": {
@@ -101,16 +179,40 @@
     "width": 56,
     "height": 720
   },
+  "docker": {
+    "title": "Docker",
+    "group": "stack",
+    "width": 91,
+    "height": 720
+  },
   "figma": {
     "title": "Figma",
     "group": "stack",
     "width": 202,
     "height": 720
   },
+  "nextdotjs": {
+    "title": "Next.js",
+    "group": "stack",
+    "width": 78,
+    "height": 720
+  },
+  "python": {
+    "title": "Python",
+    "group": "stack",
+    "width": 88,
+    "height": 720
+  },
   "react": {
     "title": "React",
     "group": "stack",
     "width": 66,
+    "height": 720
+  },
+  "rust": {
+    "title": "Rust",
+    "group": "stack",
+    "width": 103,
     "height": 720
   },
   "typescript": {

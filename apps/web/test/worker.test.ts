@@ -73,7 +73,7 @@ describe('/badge', () => {
     expect(await (await get('/badge/typescript')).text()).toContain('data:image/webp')
     expect(await (await get('/badge/typescript?theme=grid')).text()).not.toContain('data:image')
     expect(await (await get('/badge/react')).text()).toContain('data:image/webp')
-    expect(await (await get('/badge/docker')).text()).not.toContain('data:image')
+    expect(await (await get('/badge/docker?theme=noir')).text()).not.toContain('data:image')
   })
 
   it('lets the caller restyle a preset', async () => {

@@ -8,6 +8,7 @@ as soon as one exists here.
 art/
 ├── ai/         AI tools in the badge catalog      claude.png, cursor.png
 ├── stack/      tech stack in the badge catalog    typescript.png
+├── models/     model families                     Qwen.png, Kimi.png
 ├── projects/   anything else: your app, your band, your side project
 └── WANTED.md   catalog entries still waiting for a print (generated)
 ```
