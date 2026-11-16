@@ -11,7 +11,7 @@ const defaults = {
   shelf: { layout: 'row', size: 480 },
 }
 
-const state = { mode: 'badge', theme: '', width: 'regular', layout: 'stack', readme: 'dark' }
+const state = { mode: 'badge', layout: 'stack', readme: 'dark' }
 
 const badgeList = () =>
   field('badges')
@@ -49,9 +49,6 @@ function query() {
     for (const line of field('items').value.split('\n')) {
       if (line.trim()) q.append('s', line.trim())
     }
-  } else {
-    set('theme', state.theme)
-    set('width', state.width, 'regular')
   }
   if (mode !== 'shelf' && mode !== 'account') {
     set('sub', field('sub').value.trim())
@@ -128,14 +125,6 @@ function setMode(mode) {
   choose('layout', serverLayout())
 }
 
-function setTheme(id) {
-  state.theme = id
-  for (const button of document.querySelectorAll('#themes button')) {
-    button.setAttribute('aria-pressed', String(button.dataset.theme === id))
-  }
-  update({ now: true })
-}
-
 form.addEventListener('input', () => update())
 form.addEventListener('submit', (event) => event.preventDefault())
 
@@ -189,19 +178,6 @@ document.querySelector('#hero-url').textContent = heroUrl
 // Themes, badges and prints come from the server, so this page never drifts from it.
 const meta = await fetch('/api/meta').then((r) => r.json())
 
-const themes = document.querySelector('#themes')
-for (const { id, label, paper } of [{ id: '', label: 'Auto' }, ...meta.themes]) {
-  const button = Object.assign(document.createElement('button'), {
-    type: 'button',
-    title: label,
-    ariaLabel: label,
-    className: id ? '' : 'auto',
-    onclick: () => setTheme(id),
-  })
-  if (paper) button.style.background = paper
-  button.dataset.theme = id
-  themes.append(button)
-}
 document.querySelector('#theme-list').innerHTML = meta.themes
   .map(({ id }) => `<code>${id}</code>`)
   .join(' ')
@@ -239,5 +215,4 @@ for (const { slug, title } of meta.prints) {
   gallery.append(button)
 }
 
-setTheme('')
 setMode('badge')

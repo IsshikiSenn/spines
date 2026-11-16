@@ -29,6 +29,18 @@
     "width": 49,
     "height": 720
   },
+  "deepseek": {
+    "title": "DeepSeek",
+    "group": "ai",
+    "width": 82,
+    "height": 720
+  },
+  "langchain": {
+    "title": "LangChain",
+    "group": "ai",
+    "width": 89,
+    "height": 720
+  },
   "alma": {
     "title": "Alma",
     "group": "projects",
@@ -87,6 +99,18 @@
     "title": "powercontext",
     "group": "projects",
     "width": 56,
+    "height": 720
+  },
+  "figma": {
+    "title": "Figma",
+    "group": "stack",
+    "width": 202,
+    "height": 720
+  },
+  "react": {
+    "title": "React",
+    "group": "stack",
+    "width": 66,
     "height": 720
   },
   "typescript": {

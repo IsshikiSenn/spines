@@ -72,7 +72,8 @@ describe('/badge', () => {
   it('shows the print once one has been drawn, and typesets on request', async () => {
     expect(await (await get('/badge/typescript')).text()).toContain('data:image/webp')
     expect(await (await get('/badge/typescript?theme=grid')).text()).not.toContain('data:image')
-    expect(await (await get('/badge/react')).text()).not.toContain('data:image')
+    expect(await (await get('/badge/react')).text()).toContain('data:image/webp')
+    expect(await (await get('/badge/docker')).text()).not.toContain('data:image')
   })
 
   it('lets the caller restyle a preset', async () => {

@@ -107,7 +107,7 @@ pnpm --filter @repo/web exec wrangler secret put GITHUB_TOKEN
 它需要一个支持参考图的生图工具,以及用于裁切的 Python 3 和 Pillow。
 
 ```bash
-npx skills add stvlynn/cd-spine-art-skill
+npx skills add stvlynn/spines
 ```
 
 然后直接提需求:

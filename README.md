@@ -110,7 +110,7 @@ to a cropped, upright spine. It needs an image tool that accepts reference
 images, plus Python 3 and Pillow for cropping.
 
 ```bash
-npx skills add stvlynn/cd-spine-art-skill
+npx skills add stvlynn/spines
 ```
 
 Then ask for what you want:
