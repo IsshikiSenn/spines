@@ -83,7 +83,7 @@ ${wanted('ai')}
 ## Tech stack
 
 ${wanted('stack')}
-`,
+`.replace(/\s*$/, '\n'),
 )
 
 writeFileSync(

@@ -83,6 +83,46 @@ These sources were inspected before generating the corresponding complete cases.
 | Angular | [Reference source](https://angular.dev) | Current official gradient A, magenta planes and angular heavy type | [angular.png](stack/angular.png) |
 | Astro | [Reference source](https://astro.build) | Official rocket emblem, planetary print and space-age rounded title | [astro.png](stack/astro.png) |
 
+| Node.js | [Official reference](https://nodejs.org/en/about/branding/) | Faceted green hexagon, charcoal network print and huge rounded type | [nodedotjs.png](stack/nodedotjs.png) |
+| Bun | [Official reference](https://bun.sh/press-kit) | Official bun mascot, cream gingham stock and playful slab title | [bun.png](stack/bun.png) |
+| Deno | [Official reference](https://deno.com/brand) | Current white dinosaur mark, dark photocopied landscape and rounded title | [deno.png](stack/deno.png) |
+| Hono | [Official reference](https://hono.dev) | Official two-tone flame, ember halftone and heavy italic lettering | [hono.png](stack/hono.png) |
+| Django | [Official reference](https://www.djangoproject.com) | Official dj monogram, forest-green cloth print and literary slab serif | [django.png](stack/django.png) |
+| FastAPI | [Official reference](https://fastapi.tiangolo.com) | Official lightning disc, teal speed lines and italic grotesk | [fastapi.png](stack/fastapi.png) |
+| Flutter | [Official reference](https://flutter.dev) | Official folded F, icy-blue layers and tall humanist lettering | [flutter.png](stack/flutter.png) |
+| Electron | [Official reference](https://www.electronjs.org) | Official orbital atom, cyan particle waves and soft geometric title | [electron.png](stack/electron.png) |
+| Tauri | [Official reference](https://tauri.app) | Official interlocking rings, amber/cyan paper arcs and monospaced title | [tauri.png](stack/tauri.png) |
+| Tailwind CSS | [Official reference](https://tailwindcss.com/brand) | Official cyan waves, wind-rippled textile print and condensed type | [tailwindcss.png](stack/tailwindcss.png) |
+| Vite | [Official reference](https://vite.dev) | Current purple-blue bolt, lavender rave print and oversized italic title | [vite.png](stack/vite.png) |
+| Prisma | [Official reference](https://www.prisma.io/brand-kit) | Current tricolor square, translucent polygon print and geometric title | [prisma.png](stack/prisma.png) |
+| PyTorch | [Official reference](https://pytorch.org) | Official torch ring, red tensor heatmap and heavy humanist type | [pytorch.png](stack/pytorch.png) |
+| TensorFlow | [Official reference](https://www.tensorflow.org) | Official orange TF, isometric amber print and condensed lettering | [tensorflow.png](stack/tensorflow.png) |
+| Jupyter | [Official reference](https://jupyter.org) | Official orbital lockup, aged grid notebook and typewriter slab title | [jupyter.png](stack/jupyter.png) |
+| Kubernetes | [Official reference](https://kubernetes.io) | Official seven-spoke wheel, cobalt navigation print and industrial lettering | [kubernetes.png](stack/kubernetes.png) |
+| Cloudflare | [Official reference](https://www.cloudflare.com) | Official monochrome cloud, orange sunset print and rounded lettering | [cloudflare.png](stack/cloudflare.png) |
+| Workers | [Official reference](https://workers.cloudflare.com) | Official product chevrons, amber circuit bands and italic slab type | [cloudflareworkers.png](stack/cloudflareworkers.png) |
+| Vercel | [Official reference](https://vercel.com) | Official white triangle, black prismatic print and geometric lettering | [vercel.png](stack/vercel.png) |
+| Git | [Official reference](https://git-scm.com) | Official branching diamond, kraft stock and chunky slab title | [git.png](stack/git.png) |
+
+| Linux | [Official reference](https://www.kernel.org) | Original Tux by Larry Ewing from the kernel repository, aged manual stock and chunky slab type | [linux.png](stack/linux.png) |
+| NGINX | [Official reference](https://nginx.org) | Official N hexagon, emerald server print and square condensed lettering | [nginx.png](stack/nginx.png) |
+| Terraform | [Official reference](https://developer.hashicorp.com/terraform) | Official purple modular emblem, isometric blocks and heavy technical title | [terraform.png](stack/terraform.png) |
+| PostgreSQL | [Official reference](https://www.postgresql.org) | Official elephant, dusty blue cloth print and transitional serif | [postgresql.png](stack/postgresql.png) |
+| MySQL | [Official reference](https://www.mysql.com) | Official dolphin, faded teal waves and two-color humanist title | [mysql.png](stack/mysql.png) |
+| SQLite | [Official reference](https://www.sqlite.org) | Official quill tile, pale archival paper and high-contrast serif | [sqlite.png](stack/sqlite.png) |
+| Redis | [Official reference](https://redis.io) | Current script wordmark, coral screenprint and heavy italic title | [redis.png](stack/redis.png) |
+| MongoDB | [Official reference](https://www.mongodb.com) | Official slate-blue leaf, mint botanical print and editorial serif | [mongodb.png](stack/mongodb.png) |
+| Supabase | [Official reference](https://supabase.com) | Official mint bolt, dark aurora print and bold geometric type | [supabase.png](stack/supabase.png) |
+| Firebase | [Official reference](https://firebase.google.com) | Current rounded flame, amber tissue-paper print and rounded title | [firebase.png](stack/firebase.png) |
+| GraphQL | [Official reference](https://graphql.org) | Official rhodamine hexagraph, ivory graph paper and Rubik Light-like title | [graphql.png](stack/graphql.png) |
+| Apple | [Official reference](https://www.apple.com) | Official bitten-apple silhouette, silver architectural print and neo-grotesk title | [apple.png](stack/apple.png) |
+| Android | [Official reference](https://www.android.com) | Official robot-head silhouette, lime folded-paper layers and heavy rounded type | [android.png](stack/android.png) |
+
+| LangChain | [Official reference](https://www.langchain.com/brand-assets) | Blue brand palette, upright parrot-chain mark and bold technical lettering | [langchain.png](ai/langchain.png) |
+| React | [Official reference](https://react.dev) | Official cyan atom, dark paper and geometric lettering | [react.png](stack/react.png) |
+| Figma | [Official reference](https://www.figma.com) | Official multicolor F, expansive paper collage and oversized display lettering | [figma.png](stack/figma.png) |
+| DeepSeek | [Official reference](https://www.deepseek.com) | Official blue whale, blue printed stock and bold geometric lettering | [deepseek.png](ai/deepseek.png) |
+
 Model-family images are available through `/art/qwen.svg`, `/art/kimi.svg`, `/art/glm.svg`, `/art/llama.svg`, `/art/gemma.svg` and `/art/gpt-oss.svg`, and as `art:<slug>` shelf items.
 
-The remaining badge subjects require the same official-reference inspection and individual generation before they can be marked finished.
+All badge-catalog subjects now have a complete generated print. JavaScript uses the original community mark published by its author. Linux uses Larry Ewing’s Tux artwork as published in the official kernel repository.
