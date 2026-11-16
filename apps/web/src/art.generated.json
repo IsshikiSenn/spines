@@ -239,10 +239,46 @@
     "width": 56,
     "height": 720
   },
+  "angular": {
+    "title": "Angular",
+    "group": "stack",
+    "width": 90,
+    "height": 720
+  },
+  "astro": {
+    "title": "Astro",
+    "group": "stack",
+    "width": 86,
+    "height": 720
+  },
+  "cplusplus": {
+    "title": "C++",
+    "group": "stack",
+    "width": 112,
+    "height": 720
+  },
+  "dart": {
+    "title": "Dart",
+    "group": "stack",
+    "width": 81,
+    "height": 720
+  },
   "docker": {
     "title": "Docker",
     "group": "stack",
     "width": 91,
+    "height": 720
+  },
+  "dotnet": {
+    "title": ".NET",
+    "group": "stack",
+    "width": 98,
+    "height": 720
+  },
+  "elixir": {
+    "title": "Elixir",
+    "group": "stack",
+    "width": 82,
     "height": 720
   },
   "figma": {
@@ -263,10 +299,40 @@
     "width": 89,
     "height": 720
   },
+  "go": {
+    "title": "Go",
+    "group": "stack",
+    "width": 83,
+    "height": 720
+  },
+  "haskell": {
+    "title": "Haskell",
+    "group": "stack",
+    "width": 86,
+    "height": 720
+  },
+  "javascript": {
+    "title": "JavaScript",
+    "group": "stack",
+    "width": 118,
+    "height": 720
+  },
   "jetbrains": {
     "title": "JetBrains",
     "group": "stack",
     "width": 85,
+    "height": 720
+  },
+  "kotlin": {
+    "title": "Kotlin",
+    "group": "stack",
+    "width": 83,
+    "height": 720
+  },
+  "lua": {
+    "title": "Lua",
+    "group": "stack",
+    "width": 106,
     "height": 720
   },
   "neovim": {
@@ -287,10 +353,28 @@
     "width": 91,
     "height": 720
   },
+  "nuxt": {
+    "title": "Nuxt",
+    "group": "stack",
+    "width": 98,
+    "height": 720
+  },
   "obsidian": {
     "title": "Obsidian",
     "group": "stack",
     "width": 83,
+    "height": 720
+  },
+  "openjdk": {
+    "title": "Java",
+    "group": "stack",
+    "width": 103,
+    "height": 720
+  },
+  "php": {
+    "title": "PHP",
+    "group": "stack",
+    "width": 101,
     "height": 720
   },
   "pnpm": {
@@ -317,10 +401,28 @@
     "width": 66,
     "height": 720
   },
+  "ruby": {
+    "title": "Ruby",
+    "group": "stack",
+    "width": 100,
+    "height": 720
+  },
   "rust": {
     "title": "Rust",
     "group": "stack",
     "width": 103,
+    "height": 720
+  },
+  "svelte": {
+    "title": "Svelte",
+    "group": "stack",
+    "width": 89,
+    "height": 720
+  },
+  "swift": {
+    "title": "Swift",
+    "group": "stack",
+    "width": 100,
     "height": 720
   },
   "typescript": {
@@ -329,16 +431,34 @@
     "width": 64,
     "height": 720
   },
+  "vuedotjs": {
+    "title": "Vue.js",
+    "group": "stack",
+    "width": 86,
+    "height": 720
+  },
   "warp": {
     "title": "Warp",
     "group": "stack",
     "width": 83,
     "height": 720
   },
+  "webassembly": {
+    "title": "WebAssembly",
+    "group": "stack",
+    "width": 100,
+    "height": 720
+  },
   "zedindustries": {
     "title": "Zed",
     "group": "stack",
     "width": 81,
+    "height": 720
+  },
+  "zig": {
+    "title": "Zig",
+    "group": "stack",
+    "width": 88,
     "height": 720
   }
 }

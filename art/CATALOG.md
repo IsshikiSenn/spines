@@ -62,6 +62,27 @@ These sources were inspected before generating the corresponding complete cases.
 | pnpm | [Official reference](https://pnpm.io) | Official package-grid emblem, yellow packing paper and modular letterforms | [pnpm.png](stack/pnpm.png) |
 | GitHub | [Official reference](https://github.com) | Official Invertocat, brushed-silver print and branch-line artwork | [github.png](stack/github.png) |
 
+| JavaScript | [Reference source](https://github.com/voodootikigod/logo.js) | Original community JS mark, yellow manual paper and oversized condensed type | [javascript.png](stack/javascript.png) |
+| Go | [Reference source](https://go.dev) | Official speed wordmark, cyan screenprint and diagonal halftone bands | [go.png](stack/go.png) |
+| Swift | [Reference source](https://www.swift.org) | Official bird icon, vermilion silk folds and fluid italic title | [swift.png](stack/swift.png) |
+| Kotlin | [Reference source](https://kotlinlang.org) | Official gradient K, angular purple collage and bold geometric type | [kotlin.png](stack/kotlin.png) |
+| C++ | [Reference source](https://isocpp.org) | Official blue hexagon, blueprint stock and engineered block type | [cplusplus.png](stack/cplusplus.png) |
+| .NET | [Reference source](https://dotnet.microsoft.com) | Official purple tile, lavender ribbons and condensed lettering | [dotnet.png](stack/dotnet.png) |
+| Java | [Reference source](https://www.java.com) | Official white steam-cup mark, dark teal stock and warm slab serif | [openjdk.png](stack/openjdk.png) |
+| PHP | [Reference source](https://www.php.net) | Official lowercase wordmark, lavender halftone and heavy italic title | [php.png](stack/php.png) |
+| Ruby | [Reference source](https://www.ruby-lang.org/en/) | Official faceted gem, oxblood velvet print and sweeping italic serif | [ruby.png](stack/ruby.png) |
+| Elixir | [Reference source](https://elixir-lang.org) | Official violet droplet, pearl marbling and high-contrast serif | [elixir.png](stack/elixir.png) |
+| Zig | [Reference source](https://ziglang.org) | Official bracketed Z, ochre workshop stock and distressed slab title | [zig.png](stack/zig.png) |
+| Lua | [Reference source](https://www.lua.org) | Official orbital emblem, lunar duotone and rounded slab type | [lua.png](stack/lua.png) |
+| Haskell | [Reference source](https://www.haskell.org) | Official lambda emblem, aged notebook stock and monospaced slab type | [haskell.png](stack/haskell.png) |
+| Dart | [Reference source](https://dart.dev) | Official folded polygon, cyan paper planes and geometric grotesk | [dart.png](stack/dart.png) |
+| WebAssembly | [Reference source](https://webassembly.org) | Official WA tile, black raster texture and long condensed title | [webassembly.png](stack/webassembly.png) |
+| Vue.js | [Reference source](https://vuejs.org) | Official double V, mint leaf-paper collage and rounded type | [vuedotjs.png](stack/vuedotjs.png) |
+| Nuxt | [Reference source](https://nuxt.com) | Official mountain emblem, green landscape duotone and oversized grotesk | [nuxt.png](stack/nuxt.png) |
+| Svelte | [Reference source](https://svelte.dev) | Official ribbon S, torn vermilion paper and expressive italic serif | [svelte.png](stack/svelte.png) |
+| Angular | [Reference source](https://angular.dev) | Current official gradient A, magenta planes and angular heavy type | [angular.png](stack/angular.png) |
+| Astro | [Reference source](https://astro.build) | Official rocket emblem, planetary print and space-age rounded title | [astro.png](stack/astro.png) |
+
 Model-family images are available through `/art/qwen.svg`, `/art/kimi.svg`, `/art/glm.svg`, `/art/llama.svg`, `/art/gemma.svg` and `/art/gpt-oss.svg`, and as `art:<slug>` shelf items.
 
 The remaining badge subjects require the same official-reference inspection and individual generation before they can be marked finished.
