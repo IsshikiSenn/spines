@@ -1,162 +1,125 @@
 <div align="center">
 
-# 💿 CD Spine Art (`cd-spine-art`)
+# Spines
 
-**Turn apps & albums into physical CD jewel case spine collections.**<br>
-**把 App 与专辑做成复古实体 CD 盒侧脊收藏图。**
-
-[![Skills CLI](https://img.shields.io/badge/skills_cli-compatible-green?style=flat-square)](https://github.com/vercel-labs/skills)
-[![Skill](https://img.shields.io/badge/skill-cd--spine--art-blue?style=flat-square)](skills/cd-spine-art/SKILL.md)
+**README badges shaped like CD jewel case spines.**<br>
+**把技术栈、AI 工具和项目做成 CD 盒侧脊的 README 徽章。**
 
 English · [中文文档](README.zh-CN.md)
 
+<img src="docs/images/shelf.jpg" alt="A shelf of CD jewel case spines for AI apps" width="100%" />
+
 </div>
 
----
+One image URL puts a spine, or a whole shelf, in a README or GitHub profile.
+This repository holds everything behind it:
 
-## Showcase / Preview
+| | |
+| --- | --- |
+| [`apps/web`](apps/web) | The badge site: a Cloudflare Worker that draws SVG on request, and its home page. |
+| [`packages/spine`](packages/spine) | The renderer. Pure TypeScript, no dependencies, text set as outlines. |
+| [`art`](art) | Prints: one finished spine image per tool or project. [Contributions welcome](art/README.md). |
+| [`skills/cd-spine-art`](skills/cd-spine-art) | The agent skill that draws prints with an image model. |
 
-Turn your favorite AI apps, developer tools, music albums, or creative projects into a tactile, shelf-ready **90s/2000s physical CD jewel case spine collection**:
+> The site is not deployed under a public address yet. The examples below use
+> `https://YOUR-DOMAIN`; see [Deploy](#deploy).
 
-<p align="center">
-  <img src="assets/ai-apps-cd-spines.jpg" alt="AI Apps CD Jewel Case Spines Collection" width="100%" />
-</p>
+## Use a badge
 
-<details>
-<summary><b>View individual CD spines (15 AI apps)</b></summary>
+```md
+![TypeScript](https://YOUR-DOMAIN/badge/typescript.svg)
+![My stack](https://YOUR-DOMAIN/badge/typescript,react,docker,claude.svg)
+```
 
-<br>
+One name lies down like a badge. Several stand side by side on a shelf.
+Add `?layout=stack` to lay several down, or `?layout=row` to stand one up.
 
-<p align="center">
-  <img src="assets/spines/ChatGPT.png" alt="ChatGPT" height="360" />
-  <img src="assets/spines/Claude.png" alt="Claude" height="360" />
-  <img src="assets/spines/Cursor.png" alt="Cursor" height="360" />
-  <img src="assets/spines/Grok_Bot.png" alt="Grok Bot" height="360" />
-  <img src="assets/spines/Memoh.png" alt="Memoh" height="360" />
-  <img src="assets/spines/lody.png" alt="lody" height="360" />
-  <img src="assets/spines/Nowledge_Mem.png" alt="Nowledge Mem" height="360" />
-  <img src="assets/spines/Obelisk.png" alt="Obelisk" height="360" />
-  <img src="assets/spines/powercontext.png" alt="powercontext" height="360" />
-  <img src="assets/spines/Arion.png" alt="Arion" height="360" />
-  <img src="assets/spines/magpie.png" alt="magpie" height="360" />
-  <img src="assets/spines/Alma.png" alt="Alma" height="360" />
-  <img src="assets/spines/LobeHub.png" alt="LobeHub" height="360" />
-  <img src="assets/spines/Mole.png" alt="Mole" height="360" />
-  <img src="assets/spines/pinky.png" alt="pinky" height="360" />
-</p>
+| URL | Draws |
+| --- | --- |
+| `/badge/<name>,<name>.svg` | Catalog entries for common AI tools and tech stacks ([the list](apps/web/src/presets.ts)). Short names work: `ts`, `py`, `k8s`, `next`. |
+| `/spine/<title>.svg` | Any title, typeset. |
+| `/gh/<owner>/<repo>.svg` | A repository, with its stars and the mark of its main language. |
+| `/gh/<owner>.svg` | An account's most-starred repositories on a shelf. `count` 1–12, default 8. |
+| `/art/<name>,<name>.svg` | Prints from [`art`](art). |
+| `/shelf.svg?s=<item>&s=<item>` | Up to 24 of any kind. An item is a title, `badge:name`, `gh:owner/repo` or `art:name`, each with optional `;key=value` settings. |
 
-</details>
+| Option | Values | |
+| --- | --- | --- |
+| `theme` | `paper` `clay` `steel` `noir` `grid` `signal` `midnight` `candy` | Picked from the title when omitted. |
+| `sub` | text | The catalog line at the foot of the spine. |
+| `icon` | a [Simple Icons](https://simpleicons.org) slug, or `none` | The mark at the head. |
+| `paper` `ink` `accent` | hex without `#` | Recolor a theme. Ink adapts to the paper unless given. |
+| `width` | `slim` `regular` `wide` | Thickness of the case. |
+| `layout` | `stack` `row` | Lying down, or standing. |
+| `size` | 120–2400 | Length of a spine in pixels. |
+| `gap` | 0–24 | Space between spines in pixels. |
 
----
+A catalog badge shows its print from `art/` once someone has drawn it, and is
+typeset until then. Passing any styling option asks for the typeset version.
+A request that fails still answers with a spine that says why.
 
-## Workflow
+## Contribute a print
 
-Feed look references—such as paper textures, album art, prior spines, and verified app marks—into your image tool's generation node. Generate one straight-on CD jewel case spine at a time, lying horizontally across the full width of a wide black canvas (such as `3840×1280`) at maximum quality. To revise a spine later, prompt an edit on that single generation while keeping the rest of the set untouched. Finally, measure tight pixel crops around each case, rotate horizontal strips 90° clockwise, and run `scripts/assemble.py` to stitch a uniform shelf collection.
+Each catalog entry wants one image of its own, and any project can have one.
+[`art/WANTED.md`](art/WANTED.md) lists what is missing and
+[`art/README.md`](art/README.md) explains how to add it.
 
----
+## Develop
 
-## What It Does
-
-`cd-spine-art` guides an AI agent through art-directing and assembling realistic CD jewel case side labels:
-
-- **Authentic Brand & Visual Research**: Retrieves and visually verifies genuine logos/marks from official websites or repositories before generating artwork, avoiding hallucinated icons.
-- **Bespoke Art Direction per Spine**: Independently tailors paper stock (parchment, grid paper, torn collage, halftone manga, brushed metal, distressed black), color palette, typography, and case width (`244–400 px` at `3600 px` height) to fit each subject's personality.
-- **Consistent Physical Construction**: Keeps every spine grounded in the same straight-on transparent plastic jewel case aesthetic—clear rails, molded end tabs, subtle paper/plastic wear, and zero perspective distortion—so any set lines up cleanly on a shelf.
-- **Precision Cropping & Shelf Assembly**: Includes `scripts/assemble.py` to crop out the black background, rotate horizontal source strips 90° clockwise, normalize heights (default `3600 px`), and export a composite `collection.png`, individual high-res PNGs, and `spines.zip`.
-- **Incremental Collection Updates**: Retains existing spine exports when adding or editing items so you can grow a collection without regenerating everything.
-
----
-
-## Installation
-
-### Via Skills CLI (Recommended)
+Needs Node 22 and pnpm.
 
 ```bash
-npx skills add stvlynn/cd-spine-art-skill
+pnpm install
 ```
-
-<details>
-<summary>More Skills CLI options</summary>
 
 ```bash
-# Install globally for your user profile and skip confirmation prompts
-npx skills add stvlynn/cd-spine-art-skill --skill cd-spine-art -g -y
-
-# Target specific agents (e.g., Cursor, Claude Code, Codex)
-npx skills add stvlynn/cd-spine-art-skill --agent cursor claude-code
-
-# Preview available skills in this repository before installing
-npx skills add stvlynn/cd-spine-art-skill --list
+pnpm dev
 ```
 
-</details>
+| Command | |
+| --- | --- |
+| `pnpm test` | Renderer and Worker tests. |
+| `pnpm typecheck` | TypeScript, both packages. |
+| `pnpm lint` | Biome. `pnpm format` fixes. |
+| `pnpm art` | Rebuild the web copies of `art/` and `art/WANTED.md`. |
+| `pnpm fonts` | Rebuild the glyph atlases the renderer sets text from. |
 
-### Runtime Requirements
-
-- An agent/environment with an **image tool that accepts reference images** (for generating new spines; existing spine artwork can still be cropped and assembled without it).
-- **Python 3** with **Pillow** installed for running the assembly script:
-  ```bash
-  pip install -r skills/cd-spine-art/scripts/requirements.txt
-  ```
-
----
-
-## Usage
-
-Once installed, ask your agent in natural language or invoke `$cd-spine-art`:
-
-> *"Use `$cd-spine-art` to turn Cursor, Claude, ChatGPT, and powercontext into a CD jewel case spine collection."*
-
-> *"帮我把这几个 App 做成一排复古实体 CD 盒侧脊拼图：Cursor、Claude、LobeHub、Alma。"*
-
-### Assembly Script (`scripts/assemble.py`)
-
-You can also run the bundled assembler directly with a JSON manifest:
+## Deploy
 
 ```bash
-python3 skills/cd-spine-art/scripts/assemble.py manifest.json output --height 3600
+pnpm run deploy
 ```
 
-Example `manifest.json`:
+This runs `wrangler deploy` for [`apps/web`](apps/web/wrangler.jsonc). Log in
+first with `pnpm --filter @repo/web exec wrangler login`, or connect the
+repository to Workers Builds with `apps/web` as the root directory.
+[`deploy.yml`](.github/workflows/deploy.yml) deploys on every push to `main`
+once `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` are set as secrets.
 
-```json
-[
-  {
-    "name": "The_Poles",
-    "image": "sheets/the-poles.png",
-    "crop": [80, 430, 3760, 850],
-    "rotate": 90
-  },
-  {
-    "name": "Cursor",
-    "image": "Cursor.png",
-    "width": 244
-  }
-]
+GitHub routes read the GitHub API without a token, which allows 60 requests an
+hour. To raise that to 5,000, store a token with no scopes:
+
+```bash
+pnpm --filter @repo/web exec wrangler secret put GITHUB_TOKEN
 ```
 
-Outputs written to `output/`:
-- `output/collection.png` — Side-by-side shelf composite at uniform height.
-- `output/spines/<name>.png` — Individual cropped & normalized PNGs.
-- `output/spines.zip` — ZIP archive containing all individual spine PNGs.
+## The skill
 
----
+`cd-spine-art` guides an agent from verified brand marks through art direction
+to a cropped, upright spine. It needs an image tool that accepts reference
+images, plus Python 3 and Pillow for cropping.
 
-## Repository Structure
-
-```text
-.
-├── assets/
-│   ├── ai-apps-cd-spines.jpg         # Assembled 15-spine showcase preview
-│   └── spines/                       # Individual preview spines
-└── skills/
-    └── cd-spine-art/
-        ├── SKILL.md                  # Core agent workflow & art direction instructions
-        ├── agents/
-        │   └── openai.yaml           # Agent display metadata & default prompt
-        ├── assets/
-        │   └── icon.svg              # Skill icon
-        └── scripts/
-            ├── assemble.py           # Crop, rotate, resize & shelf-assembly script
-            └── requirements.txt      # Pillow
+```bash
+npx skills add stvlynn/spines
 ```
+
+Then ask for what you want:
+
+> Use `$cd-spine-art` to make a CD spine for React and add it to `art/stack/`.
+
+## Credits
+
+Brand marks come from [Simple Icons](https://simpleicons.org) and belong to
+their owners. The home page follows the
+[Sunbeam](https://github.com/AstraFoundry/design) design system (MIT). Spine
+type is set in Inter, Fraunces, JetBrains Mono, Anton and Fredoka (OFL).

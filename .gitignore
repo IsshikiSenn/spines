@@ -1,4 +1,11 @@
 .DS_Store
+node_modules/
+.wrangler/
+.dev.vars
+dist/
+*.tsbuildinfo
+
+# skill tooling
 __pycache__/
 *.py[cod]
 .venv/

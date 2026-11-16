@@ -1,0 +1,844 @@
+/*
+ * Styled to Sunbeam (github.com/AstraFoundry/design): warm paper and ink,
+ * yellow for the one primary action, and flat controls on the page. Spines
+ * sit on the page itself. Every color is a token from sunbeam.css; light and
+ * dark live there, not here.
+ */
+
+@font-face {
+  font-family: Fraunces;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/fraunces-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Sans";
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/ibm-plex-sans-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Sans";
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/ibm-plex-sans-latin-500-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/jetbrains-mono-latin-400-normal.woff2") format("woff2");
+}
+
+:root {
+  --display: Fraunces, "Iowan Old Style", "Songti SC", "Noto Serif SC", serif;
+  --sans: "IBM Plex Sans", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Material 3 standard accelerate: what leaves picks up speed and is gone. */
+  --ease-exit: cubic-bezier(0.3, 0, 1, 1);
+  /* Where an added spine starts, before it settles into the row. */
+  --arrive-x: 20px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--background);
+  color: var(--foreground);
+  font: 400 16px / 1.6 var(--sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--yellow-300);
+  color: var(--ink-900);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+a {
+  color: inherit;
+  text-decoration-color: var(--faint);
+  text-underline-offset: 3px;
+}
+a:hover {
+  text-decoration-color: currentColor;
+}
+
+code,
+var,
+.well {
+  font: 400 14px / 1.6 var(--mono);
+  font-style: normal;
+}
+:not(.well) > code {
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: var(--muted);
+  color: var(--muted-foreground);
+}
+var {
+  color: var(--foreground);
+}
+
+.wrap {
+  width: min(1120px, 100% - 32px);
+  margin-inline: auto;
+}
+
+/* Chrome */
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-block: 20px;
+}
+.brand {
+  font: 400 22px / 1 var(--display);
+  letter-spacing: -0.01em;
+  text-decoration: none;
+}
+nav {
+  display: flex;
+  gap: 20px;
+  font-size: 14px;
+  color: var(--muted-foreground);
+}
+nav a {
+  text-decoration: none;
+  transition: color 150ms;
+}
+nav a:hover {
+  color: var(--foreground);
+}
+
+/* Type */
+h1,
+h2 {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 400;
+  text-wrap: balance;
+}
+h1 {
+  font-size: clamp(3rem, 7vw, 6rem);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+}
+h2 {
+  font-size: clamp(36px, 4vw, 48px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+h3 {
+  margin: 40px 0 16px;
+  font: 500 20px / 1.3 var(--sans);
+  letter-spacing: -0.01em;
+}
+section {
+  padding-block: 56px;
+}
+.hero {
+  padding-block: clamp(32px, 7vw, 88px) clamp(24px, 4vw, 40px);
+}
+.wrap > :is(h1, h2) + * {
+  margin-top: 32px;
+}
+.hero h1 + .stage {
+  margin-top: clamp(32px, 5vw, 56px);
+}
+
+/* Spines sit directly on the page: no card behind the shelf, the preview, or the prints. */
+.stage {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  background: none;
+  color: inherit;
+}
+.stage img {
+  display: block;
+}
+
+/* Maker */
+.maker {
+  display: grid;
+  grid-template-columns: minmax(0, 380px) minmax(0, 1fr);
+  gap: 40px;
+  align-items: start;
+}
+form {
+  display: grid;
+  gap: 20px;
+}
+.field {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+.pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+label,
+.label {
+  font: 500 14px / 1.5 var(--sans);
+}
+output {
+  color: var(--muted-foreground);
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+[hidden] {
+  display: none;
+}
+
+input:not([type="range"]),
+textarea {
+  width: 100%;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--input);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--foreground);
+  font: 400 14px / 1.5 var(--sans);
+}
+textarea {
+  height: auto;
+  padding: 10px 12px;
+  font: 400 13px / 1.6 var(--mono);
+  resize: vertical;
+}
+::placeholder {
+  color: var(--faint);
+}
+input[type="range"] {
+  width: 100%;
+  margin: 0;
+  accent-color: var(--foreground);
+}
+
+/* Flat material: one fill, no edge, no shadow. */
+.segmented {
+  display: grid;
+  grid-template-columns: repeat(var(--n), 1fr);
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--flat-face);
+}
+.segmented button {
+  height: 34px;
+  padding: 0 6px;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: var(--muted-foreground);
+  font: 500 14px / 1 var(--sans);
+  cursor: pointer;
+  transition:
+    color 150ms,
+    background-color 150ms,
+    scale 150ms;
+}
+.segmented button:hover {
+  color: var(--foreground);
+}
+.segmented button:active {
+  scale: 0.97;
+}
+.segmented button:is([aria-selected="true"], [aria-checked="true"]) {
+  background: var(--flat-thumb);
+  color: var(--foreground);
+}
+
+.button {
+  height: 40px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--flat-face);
+  color: var(--foreground);
+  font: 500 14px / 1 var(--sans);
+  cursor: pointer;
+  transition:
+    background-color 150ms,
+    scale 150ms;
+}
+.button:hover {
+  background: var(--flat-face-hover);
+}
+.button:active {
+  scale: 0.97;
+  background: var(--flat-face-pressed);
+}
+.button:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.button.primary {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+.button.primary:hover {
+  background: color-mix(in oklab, var(--primary) 88%, var(--foreground));
+}
+
+/* Picker: chosen spines as tokens over a search combobox, one bordered field. */
+.picker {
+  position: relative;
+  display: grid;
+  border: 1px solid var(--input);
+  border-radius: 12px;
+  background: var(--card);
+  transition: box-shadow 150ms;
+}
+.picker:focus-within {
+  border-color: var(--ring);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 22%, transparent);
+}
+.tokens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 8px 8px 0;
+  list-style: none;
+}
+.tokens:empty {
+  display: none;
+}
+.token {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 2px 0 8px;
+  border-radius: 8px;
+  background: var(--flat-face);
+  font-size: 13px;
+  cursor: grab;
+  transition:
+    opacity 150ms,
+    box-shadow 150ms;
+}
+.token .thumb {
+  --length: 40px;
+}
+.token.dragging {
+  opacity: 0.35;
+}
+.token.over {
+  box-shadow: inset 2px 0 0 var(--foreground);
+}
+.token-label {
+  max-width: 160px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.token-remove {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: var(--muted-foreground);
+  cursor: pointer;
+}
+.token-remove::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  background: currentColor;
+  clip-path: polygon(
+    15% 0,
+    50% 35%,
+    85% 0,
+    100% 15%,
+    65% 50%,
+    100% 85%,
+    85% 100%,
+    50% 65%,
+    15% 100%,
+    0 85%,
+    35% 50%,
+    0 15%
+  );
+}
+.token-remove:hover {
+  background: var(--flat-face-hover);
+  color: var(--foreground);
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 10px 0 12px;
+}
+.search svg {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: var(--muted-foreground);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+.picker .search input {
+  flex: 1;
+  height: 42px;
+  padding: 0;
+  border: 0;
+  background: none;
+  outline: none;
+}
+kbd {
+  display: inline-grid;
+  place-items: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  color: var(--muted-foreground);
+  font: 400 11px / 1 var(--mono);
+}
+.picker:focus-within .search kbd {
+  visibility: hidden;
+}
+
+.popup {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: -1px;
+  right: -1px;
+  z-index: 10;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  max-height: min(420px, 60vh);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--popover);
+  color: var(--popover-foreground);
+  box-shadow: var(--shadow-3);
+  overflow: hidden;
+}
+.popup[hidden] {
+  display: none;
+}
+.facets {
+  display: flex;
+  gap: 4px;
+  padding: 8px;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+}
+.facet {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: var(--muted-foreground);
+  font: 500 13px / 1 var(--sans);
+  cursor: pointer;
+}
+.facet span {
+  color: var(--faint);
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+.facet:hover {
+  background: var(--flat-face);
+  color: var(--foreground);
+}
+.facet[aria-pressed="true"] {
+  background: var(--foreground);
+  color: var(--background);
+}
+.facet[aria-pressed="true"] span {
+  color: inherit;
+  opacity: 0.6;
+}
+
+.results {
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.results .group {
+  padding: 10px 10px 4px;
+  color: var(--faint);
+  font: 500 11px / 1 var(--sans);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.results .none {
+  padding: 16px 10px;
+  color: var(--muted-foreground);
+  font-size: 14px;
+}
+.option {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr) auto 16px;
+  align-items: center;
+  gap: 12px;
+  min-height: 40px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.option.active {
+  background: var(--flat-face);
+}
+.option-label {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.option-label mark {
+  background: none;
+  color: inherit;
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: var(--yellow-500);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+.option-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted-foreground);
+  font-size: 12px;
+}
+.option-meta code {
+  padding: 0;
+  background: none;
+  font-size: 12px;
+}
+.option-meta .tag {
+  padding: 2px 6px;
+  border-radius: 5px;
+  background: var(--muted);
+}
+.check {
+  grid-column: -2;
+  width: 16px;
+  height: 16px;
+}
+.option[aria-selected="true"] .check {
+  background: var(--foreground);
+  clip-path: polygon(14% 52%, 26% 40%, 42% 56%, 76% 22%, 88% 34%, 42% 80%);
+}
+
+/* A print laid down small: the image is upright, so it is turned a quarter. */
+.thumb {
+  --length: 72px;
+  position: relative;
+  justify-self: start;
+  width: var(--length);
+  height: calc(var(--length) * var(--ratio, 0.1));
+  overflow: hidden;
+  border-radius: 1px;
+}
+.thumb img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: auto;
+  height: var(--length);
+  translate: -50% -50%;
+  rotate: -90deg;
+}
+.thumb.glyph {
+  display: grid;
+  place-items: center;
+  width: auto;
+  min-width: 22px;
+  height: 20px;
+  padding: 0 4px;
+  border-radius: 5px;
+  background: var(--muted);
+  color: var(--muted-foreground);
+  font: 500 11px / 1 var(--mono);
+}
+
+@media (hover: none) {
+  .search kbd {
+    display: none;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.result {
+  position: sticky;
+  top: 24px;
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+}
+/*
+ * Spines line up from the left edge, so one that arrives at the end leaves the
+ * others where they were, and standing spines shrink together to fit the column.
+ */
+.scene {
+  min-width: 0;
+  overflow-x: clip;
+}
+.shelf {
+  display: flex;
+  align-items: flex-end;
+}
+.shelf[data-layout="stack"] {
+  flex-direction: column;
+  align-items: flex-start;
+}
+.case {
+  display: block;
+  transition: opacity 200ms var(--ease-out);
+}
+.shelf .case {
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 100%;
+}
+.shelf .case img {
+  max-width: 100%;
+  height: auto;
+}
+.case.loading {
+  opacity: 0.4;
+}
+
+/* Something added slides in from the right; something removed fades. */
+@keyframes arrive {
+  from {
+    opacity: 0;
+    translate: var(--arrive-x) 0;
+  }
+}
+@keyframes depart {
+  to {
+    opacity: 0;
+    translate: 6px 0;
+  }
+}
+@keyframes token-enter {
+  from {
+    opacity: 0;
+    translate: 20px 0;
+  }
+}
+.case.enter {
+  animation: arrive 250ms var(--ease-out) both;
+}
+.case.leave {
+  animation: depart 150ms var(--ease-exit) forwards;
+  pointer-events: none;
+}
+.token.enter {
+  animation: token-enter 250ms var(--ease-out) both;
+}
+
+.well {
+  display: block;
+  min-height: calc(13px * 1.6 + 20px);
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: var(--muted);
+  color: var(--muted-foreground);
+  font-size: 13px;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.well:empty {
+  display: none;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.gallery {
+  display: flex;
+  padding-block: 16px;
+  overflow-x: auto;
+}
+.gallery .case {
+  flex: none;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.gallery .case:focus-visible {
+  outline: none;
+}
+.gallery .case:focus-visible img {
+  outline: 2px solid var(--ring);
+}
+.gallery img {
+  height: 440px;
+  width: auto;
+}
+
+/* Rows separated by a one-pixel gap over the border color, so lines never double. */
+.rows {
+  display: grid;
+  gap: 1px;
+  background: var(--border);
+  border-block: 1px solid var(--border);
+}
+.rows > div {
+  display: grid;
+  grid-template-columns: minmax(0, 340px) minmax(0, 1fr);
+  gap: 4px 24px;
+  align-items: baseline;
+  padding-block: 14px;
+  background: var(--background);
+}
+.rows > div > span {
+  color: var(--muted-foreground);
+  font-size: 14px;
+}
+.rows > div > :first-child,
+.rows > div > code {
+  justify-self: start;
+}
+.rows > div:has(> code + code) {
+  grid-template-columns: auto auto auto minmax(0, 1fr);
+  gap: 4px 6px;
+}
+.rows > div:has(> code + code) > span {
+  margin-left: 18px;
+}
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding-block: 32px 48px;
+  color: var(--muted-foreground);
+  font-size: 13px;
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  translate: -50% 8px;
+  padding: 10px 16px;
+  border-radius: 14px;
+  background: var(--popover);
+  color: var(--popover-foreground);
+  box-shadow: var(--shadow-2);
+  font-size: 14px;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 150ms,
+    translate 150ms;
+}
+.toast.on {
+  opacity: 1;
+  translate: -50% 0;
+  transition:
+    opacity 250ms var(--ease-out),
+    translate 250ms var(--ease-out);
+}
+
+@media (max-width: 860px) {
+  .maker {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .result {
+    position: static;
+    order: -1;
+  }
+  .rows > div,
+  .rows > div:has(> code + code) {
+    grid-template-columns: 1fr;
+  }
+  .rows > div:has(> code + code) {
+    display: block;
+  }
+  .rows > div:has(> code + code) > span {
+    display: block;
+    margin: 4px 0 0;
+  }
+  .gallery img {
+    height: 320px;
+  }
+  nav {
+    gap: 14px;
+  }
+  .option {
+    grid-template-columns: 56px minmax(0, 1fr) auto 16px;
+    gap: 10px;
+  }
+  .option .thumb:not(.glyph) {
+    --length: 56px;
+  }
+  .option-meta .tag {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* No travel: what arrives or leaves just appears or goes. */
+  :root {
+    --arrive-x: 0px;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms;
+  }
+  .case:is(.enter, .leave),
+  .token.enter {
+    animation-duration: 0.01ms;
+  }
+}
