@@ -17,10 +17,22 @@
     "width": 74,
     "height": 720
   },
+  "anthropic": {
+    "title": "Anthropic",
+    "group": "ai",
+    "width": 79,
+    "height": 720
+  },
   "claude": {
     "title": "Claude",
     "group": "ai",
     "width": 72,
+    "height": 720
+  },
+  "crewai": {
+    "title": "CrewAI",
+    "group": "ai",
+    "width": 91,
     "height": 720
   },
   "cursor": {
@@ -41,6 +53,12 @@
     "width": 91,
     "height": 720
   },
+  "githubcopilot": {
+    "title": "Copilot",
+    "group": "ai",
+    "width": 85,
+    "height": 720
+  },
   "googlegemini": {
     "title": "Gemini",
     "group": "ai",
@@ -55,6 +73,18 @@
   },
   "langchain": {
     "title": "LangChain",
+    "group": "ai",
+    "width": 89,
+    "height": 720
+  },
+  "langgraph": {
+    "title": "LangGraph",
+    "group": "ai",
+    "width": 86,
+    "height": 720
+  },
+  "meta": {
+    "title": "Meta AI",
     "group": "ai",
     "width": 89,
     "height": 720
@@ -81,6 +111,36 @@
     "title": "OpenRouter",
     "group": "ai",
     "width": 83,
+    "height": 720
+  },
+  "perplexity": {
+    "title": "Perplexity",
+    "group": "ai",
+    "width": 90,
+    "height": 720
+  },
+  "replicate": {
+    "title": "Replicate",
+    "group": "ai",
+    "width": 87,
+    "height": 720
+  },
+  "replit": {
+    "title": "Replit",
+    "group": "ai",
+    "width": 79,
+    "height": 720
+  },
+  "v0": {
+    "title": "v0",
+    "group": "ai",
+    "width": 74,
+    "height": 720
+  },
+  "windsurf": {
+    "title": "Windsurf",
+    "group": "ai",
+    "width": 88,
     "height": 720
   },
   "glm": {
@@ -191,14 +251,62 @@
     "width": 202,
     "height": 720
   },
+  "ghostty": {
+    "title": "Ghostty",
+    "group": "stack",
+    "width": 87,
+    "height": 720
+  },
+  "github": {
+    "title": "GitHub",
+    "group": "stack",
+    "width": 89,
+    "height": 720
+  },
+  "jetbrains": {
+    "title": "JetBrains",
+    "group": "stack",
+    "width": 85,
+    "height": 720
+  },
+  "neovim": {
+    "title": "Neovim",
+    "group": "stack",
+    "width": 88,
+    "height": 720
+  },
   "nextdotjs": {
     "title": "Next.js",
     "group": "stack",
     "width": 78,
     "height": 720
   },
+  "notion": {
+    "title": "Notion",
+    "group": "stack",
+    "width": 91,
+    "height": 720
+  },
+  "obsidian": {
+    "title": "Obsidian",
+    "group": "stack",
+    "width": 83,
+    "height": 720
+  },
+  "pnpm": {
+    "title": "pnpm",
+    "group": "stack",
+    "width": 88,
+    "height": 720
+  },
   "python": {
     "title": "Python",
+    "group": "stack",
+    "width": 88,
+    "height": 720
+  },
+  "raycast": {
+    "title": "Raycast",
     "group": "stack",
     "width": 88,
     "height": 720
@@ -219,6 +327,18 @@
     "title": "TypeScript",
     "group": "stack",
     "width": 64,
+    "height": 720
+  },
+  "warp": {
+    "title": "Warp",
+    "group": "stack",
+    "width": 83,
+    "height": 720
+  },
+  "zedindustries": {
+    "title": "Zed",
+    "group": "stack",
+    "width": 81,
     "height": 720
   }
 }
