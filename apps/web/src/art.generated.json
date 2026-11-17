@@ -65,6 +65,12 @@
     "width": 91,
     "height": 720
   },
+  "ego-lite": {
+    "title": "ego lite",
+    "group": "ai",
+    "width": 97,
+    "height": 720
+  },
   "elevenlabs": {
     "title": "ElevenLabs",
     "group": "ai",
@@ -267,12 +273,6 @@
     "title": "Obelisk",
     "group": "projects",
     "width": 49,
-    "height": 720
-  },
-  "ego-lite": {
-    "title": "ego lite",
-    "group": "projects",
-    "width": 97,
     "height": 720
   },
   "lody": {
