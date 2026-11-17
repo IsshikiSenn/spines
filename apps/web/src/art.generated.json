@@ -1,14 +1,26 @@
 {
-  "anthropic": {
-    "title": "Anthropic",
-    "group": "ai",
-    "width": 79,
-    "height": 720
-  },
   "chatgpt": {
     "title": "ChatGPT",
     "group": "ai",
     "width": 60,
+    "height": 720
+  },
+  "grok-bot": {
+    "title": "Grok Bot",
+    "group": "ai",
+    "width": 80,
+    "height": 720
+  },
+  "lobehub": {
+    "title": "LobeHub",
+    "group": "ai",
+    "width": 74,
+    "height": 720
+  },
+  "anthropic": {
+    "title": "Anthropic",
+    "group": "ai",
+    "width": 79,
     "height": 720
   },
   "claude": {
@@ -77,12 +89,6 @@
     "width": 89,
     "height": 720
   },
-  "grok-bot": {
-    "title": "Grok Bot",
-    "group": "ai",
-    "width": 80,
-    "height": 720
-  },
   "huggingface": {
     "title": "Hugging Face",
     "group": "ai",
@@ -105,12 +111,6 @@
     "title": "LangGraph",
     "group": "ai",
     "width": 86,
-    "height": 720
-  },
-  "lobehub": {
-    "title": "LobeHub",
-    "group": "ai",
-    "width": 74,
     "height": 720
   },
   "meta": {
@@ -203,20 +203,14 @@
     "width": 88,
     "height": 720
   },
-  "gemma": {
-    "title": "Gemma",
-    "group": "models",
-    "width": 71,
-    "height": 720
-  },
   "glm": {
     "title": "GLM",
     "group": "models",
     "width": 90,
     "height": 720
   },
-  "gpt-oss": {
-    "title": "gpt-oss",
+  "gemma": {
+    "title": "Gemma",
     "group": "models",
     "width": 71,
     "height": 720
@@ -239,6 +233,12 @@
     "width": 86,
     "height": 720
   },
+  "gpt-oss": {
+    "title": "gpt-oss",
+    "group": "models",
+    "width": 71,
+    "height": 720
+  },
   "alma": {
     "title": "Alma",
     "group": "projects",
@@ -249,18 +249,6 @@
     "title": "Arion",
     "group": "projects",
     "width": 70,
-    "height": 720
-  },
-  "lody": {
-    "title": "lody",
-    "group": "projects",
-    "width": 52,
-    "height": 720
-  },
-  "magpie": {
-    "title": "magpie",
-    "group": "projects",
-    "width": 64,
     "height": 720
   },
   "memoh": {
@@ -285,6 +273,18 @@
     "title": "Obelisk",
     "group": "projects",
     "width": 49,
+    "height": 720
+  },
+  "lody": {
+    "title": "lody",
+    "group": "projects",
+    "width": 52,
+    "height": 720
+  },
+  "magpie": {
+    "title": "magpie",
+    "group": "projects",
+    "width": 64,
     "height": 720
   },
   "pinky": {
