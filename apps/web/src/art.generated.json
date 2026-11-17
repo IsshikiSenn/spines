@@ -29,6 +29,18 @@
     "width": 72,
     "height": 720
   },
+  "cline": {
+    "title": "Cline",
+    "group": "ai",
+    "width": 75,
+    "height": 720
+  },
+  "coze": {
+    "title": "Coze",
+    "group": "ai",
+    "width": 83,
+    "height": 720
+  },
   "crewai": {
     "title": "CrewAI",
     "group": "ai",
@@ -53,6 +65,12 @@
     "width": 91,
     "height": 720
   },
+  "elevenlabs": {
+    "title": "ElevenLabs",
+    "group": "ai",
+    "width": 59,
+    "height": 720
+  },
   "githubcopilot": {
     "title": "Copilot",
     "group": "ai",
@@ -69,6 +87,12 @@
     "title": "Hugging Face",
     "group": "ai",
     "width": 106,
+    "height": 720
+  },
+  "kagi": {
+    "title": "Kagi",
+    "group": "ai",
+    "width": 62,
     "height": 720
   },
   "langchain": {
@@ -89,10 +113,22 @@
     "width": 89,
     "height": 720
   },
+  "milvus": {
+    "title": "Milvus",
+    "group": "ai",
+    "width": 97,
+    "height": 720
+  },
   "mistralai": {
     "title": "Mistral AI",
     "group": "ai",
     "width": 78,
+    "height": 720
+  },
+  "modelcontextprotocol": {
+    "title": "Model Context Protocol",
+    "group": "ai",
+    "width": 110,
     "height": 720
   },
   "n8n": {
@@ -119,6 +155,18 @@
     "width": 90,
     "height": 720
   },
+  "poe": {
+    "title": "Poe",
+    "group": "ai",
+    "width": 64,
+    "height": 720
+  },
+  "qdrant": {
+    "title": "Qdrant",
+    "group": "ai",
+    "width": 85,
+    "height": 720
+  },
   "replicate": {
     "title": "Replicate",
     "group": "ai",
@@ -129,6 +177,12 @@
     "title": "Replit",
     "group": "ai",
     "width": 79,
+    "height": 720
+  },
+  "trae": {
+    "title": "TRAE",
+    "group": "ai",
+    "width": 64,
     "height": 720
   },
   "v0": {
@@ -215,6 +269,12 @@
     "width": 49,
     "height": 720
   },
+  "ego-lite": {
+    "title": "ego lite",
+    "group": "projects",
+    "width": 97,
+    "height": 720
+  },
   "lody": {
     "title": "lody",
     "group": "projects",
@@ -239,6 +299,12 @@
     "width": 56,
     "height": 720
   },
+  "airtable": {
+    "title": "Airtable",
+    "group": "stack",
+    "width": 117,
+    "height": 720
+  },
   "android": {
     "title": "Android",
     "group": "stack",
@@ -257,6 +323,12 @@
     "width": 80,
     "height": 720
   },
+  "asana": {
+    "title": "Asana",
+    "group": "stack",
+    "width": 97,
+    "height": 720
+  },
   "astro": {
     "title": "Astro",
     "group": "stack",
@@ -267,6 +339,12 @@
     "title": "Bun",
     "group": "stack",
     "width": 106,
+    "height": 720
+  },
+  "clerk": {
+    "title": "Clerk",
+    "group": "stack",
+    "width": 83,
     "height": 720
   },
   "cloudflare": {
@@ -293,10 +371,22 @@
     "width": 81,
     "height": 720
   },
+  "datadog": {
+    "title": "Datadog",
+    "group": "stack",
+    "width": 97,
+    "height": 720
+  },
   "deno": {
     "title": "Deno",
     "group": "stack",
     "width": 85,
+    "height": 720
+  },
+  "discord": {
+    "title": "Discord",
+    "group": "stack",
+    "width": 99,
     "height": 720
   },
   "django": {
@@ -371,10 +461,22 @@
     "width": 89,
     "height": 720
   },
+  "gitlab": {
+    "title": "GitLab",
+    "group": "stack",
+    "width": 144,
+    "height": 720
+  },
   "go": {
     "title": "Go",
     "group": "stack",
     "width": 83,
+    "height": 720
+  },
+  "grafana": {
+    "title": "Grafana",
+    "group": "stack",
+    "width": 100,
     "height": 720
   },
   "graphql": {
@@ -407,6 +509,12 @@
     "width": 85,
     "height": 720
   },
+  "jira": {
+    "title": "Jira",
+    "group": "stack",
+    "width": 100,
+    "height": 720
+  },
   "jupyter": {
     "title": "Jupyter",
     "group": "stack",
@@ -425,6 +533,12 @@
     "width": 104,
     "height": 720
   },
+  "linear": {
+    "title": "Linear",
+    "group": "stack",
+    "width": 59,
+    "height": 720
+  },
   "linux": {
     "title": "Linux",
     "group": "stack",
@@ -437,6 +551,18 @@
     "width": 106,
     "height": 720
   },
+  "make": {
+    "title": "Make",
+    "group": "stack",
+    "width": 84,
+    "height": 720
+  },
+  "miro": {
+    "title": "Miro",
+    "group": "stack",
+    "width": 85,
+    "height": 720
+  },
   "mongodb": {
     "title": "MongoDB",
     "group": "stack",
@@ -447,6 +573,12 @@
     "title": "MySQL",
     "group": "stack",
     "width": 86,
+    "height": 720
+  },
+  "neon": {
+    "title": "Neon",
+    "group": "stack",
+    "width": 63,
     "height": 720
   },
   "neovim": {
@@ -515,6 +647,18 @@
     "width": 100,
     "height": 720
   },
+  "posthog": {
+    "title": "PostHog",
+    "group": "stack",
+    "width": 126,
+    "height": 720
+  },
+  "postman": {
+    "title": "Postman",
+    "group": "stack",
+    "width": 119,
+    "height": 720
+  },
   "prisma": {
     "title": "Prisma",
     "group": "stack",
@@ -551,6 +695,12 @@
     "width": 94,
     "height": 720
   },
+  "resend": {
+    "title": "Resend",
+    "group": "stack",
+    "width": 71,
+    "height": 720
+  },
   "ruby": {
     "title": "Ruby",
     "group": "stack",
@@ -563,10 +713,22 @@
     "width": 103,
     "height": 720
   },
+  "sentry": {
+    "title": "Sentry",
+    "group": "stack",
+    "width": 87,
+    "height": 720
+  },
   "sqlite": {
     "title": "SQLite",
     "group": "stack",
     "width": 94,
+    "height": 720
+  },
+  "stripe": {
+    "title": "Stripe",
+    "group": "stack",
+    "width": 85,
     "height": 720
   },
   "supabase": {
@@ -617,6 +779,12 @@
     "width": 64,
     "height": 720
   },
+  "upstash": {
+    "title": "Upstash",
+    "group": "stack",
+    "width": 67,
+    "height": 720
+  },
   "vercel": {
     "title": "Vercel",
     "group": "stack",
@@ -645,6 +813,12 @@
     "title": "WebAssembly",
     "group": "stack",
     "width": 100,
+    "height": 720
+  },
+  "zapier": {
+    "title": "Zapier",
+    "group": "stack",
+    "width": 113,
     "height": 720
   },
   "zedindustries": {
