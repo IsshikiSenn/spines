@@ -281,6 +281,12 @@
     "width": 82,
     "height": 720
   },
+  "contentful": {
+    "title": "Contentful",
+    "group": "stack",
+    "width": 117,
+    "height": 720
+  },
   "cplusplus": {
     "title": "C++",
     "group": "stack",
@@ -297,6 +303,12 @@
     "title": "Deno",
     "group": "stack",
     "width": 85,
+    "height": 720
+  },
+  "directus": {
+    "title": "Directus",
+    "group": "stack",
+    "width": 83,
     "height": 720
   },
   "django": {
@@ -317,6 +329,12 @@
     "width": 98,
     "height": 720
   },
+  "drupal": {
+    "title": "Drupal",
+    "group": "stack",
+    "width": 117,
+    "height": 720
+  },
   "electron": {
     "title": "Electron",
     "group": "stack",
@@ -327,6 +345,12 @@
     "title": "Elixir",
     "group": "stack",
     "width": 82,
+    "height": 720
+  },
+  "express": {
+    "title": "Express",
+    "group": "stack",
+    "width": 68,
     "height": 720
   },
   "fastapi": {
@@ -347,10 +371,28 @@
     "width": 89,
     "height": 720
   },
+  "flask": {
+    "title": "Flask",
+    "group": "stack",
+    "width": 98,
+    "height": 720
+  },
   "flutter": {
     "title": "Flutter",
     "group": "stack",
     "width": 81,
+    "height": 720
+  },
+  "gatsby": {
+    "title": "Gatsby",
+    "group": "stack",
+    "width": 97,
+    "height": 720
+  },
+  "ghost": {
+    "title": "Ghost",
+    "group": "stack",
+    "width": 59,
     "height": 720
   },
   "ghostty": {
@@ -395,6 +437,12 @@
     "width": 91,
     "height": 720
   },
+  "htmx": {
+    "title": "htmx",
+    "group": "stack",
+    "width": 73,
+    "height": 720
+  },
   "javascript": {
     "title": "JavaScript",
     "group": "stack",
@@ -425,6 +473,12 @@
     "width": 104,
     "height": 720
   },
+  "laravel": {
+    "title": "Laravel",
+    "group": "stack",
+    "width": 103,
+    "height": 720
+  },
   "linux": {
     "title": "Linux",
     "group": "stack",
@@ -453,6 +507,12 @@
     "title": "Neovim",
     "group": "stack",
     "width": 88,
+    "height": 720
+  },
+  "nestjs": {
+    "title": "NestJS",
+    "group": "stack",
+    "width": 101,
     "height": 720
   },
   "nextdotjs": {
@@ -497,6 +557,12 @@
     "width": 103,
     "height": 720
   },
+  "payloadcms": {
+    "title": "Payload",
+    "group": "stack",
+    "width": 96,
+    "height": 720
+  },
   "php": {
     "title": "PHP",
     "group": "stack",
@@ -533,6 +599,12 @@
     "width": 103,
     "height": 720
   },
+  "qwik": {
+    "title": "Qwik",
+    "group": "stack",
+    "width": 67,
+    "height": 720
+  },
   "raycast": {
     "title": "Raycast",
     "group": "stack",
@@ -551,10 +623,22 @@
     "width": 94,
     "height": 720
   },
+  "remix": {
+    "title": "Remix",
+    "group": "stack",
+    "width": 61,
+    "height": 720
+  },
   "ruby": {
     "title": "Ruby",
     "group": "stack",
     "width": 100,
+    "height": 720
+  },
+  "rubyonrails": {
+    "title": "Ruby on Rails",
+    "group": "stack",
+    "width": 117,
     "height": 720
   },
   "rust": {
@@ -563,10 +647,34 @@
     "width": 103,
     "height": 720
   },
+  "sanity": {
+    "title": "Sanity",
+    "group": "stack",
+    "width": 82,
+    "height": 720
+  },
+  "solid": {
+    "title": "Solid",
+    "group": "stack",
+    "width": 66,
+    "height": 720
+  },
+  "springboot": {
+    "title": "Spring Boot",
+    "group": "stack",
+    "width": 131,
+    "height": 720
+  },
   "sqlite": {
     "title": "SQLite",
     "group": "stack",
     "width": 94,
+    "height": 720
+  },
+  "strapi": {
+    "title": "Strapi",
+    "group": "stack",
+    "width": 100,
     "height": 720
   },
   "supabase": {
@@ -611,6 +719,12 @@
     "width": 86,
     "height": 720
   },
+  "trpc": {
+    "title": "tRPC",
+    "group": "stack",
+    "width": 59,
+    "height": 720
+  },
   "typescript": {
     "title": "TypeScript",
     "group": "stack",
@@ -635,6 +749,12 @@
     "width": 86,
     "height": 720
   },
+  "wagtail": {
+    "title": "Wagtail",
+    "group": "stack",
+    "width": 97,
+    "height": 720
+  },
   "warp": {
     "title": "Warp",
     "group": "stack",
@@ -645,6 +765,12 @@
     "title": "WebAssembly",
     "group": "stack",
     "width": 100,
+    "height": 720
+  },
+  "wordpress": {
+    "title": "WordPress",
+    "group": "stack",
+    "width": 121,
     "height": 720
   },
   "zedindustries": {
