@@ -1,26 +1,14 @@
 {
-  "chatgpt": {
-    "title": "ChatGPT",
-    "group": "ai",
-    "width": 60,
-    "height": 720
-  },
-  "grok-bot": {
-    "title": "Grok Bot",
-    "group": "ai",
-    "width": 80,
-    "height": 720
-  },
-  "lobehub": {
-    "title": "LobeHub",
-    "group": "ai",
-    "width": 74,
-    "height": 720
-  },
   "anthropic": {
     "title": "Anthropic",
     "group": "ai",
     "width": 79,
+    "height": 720
+  },
+  "chatgpt": {
+    "title": "ChatGPT",
+    "group": "ai",
+    "width": 60,
     "height": 720
   },
   "claude": {
@@ -89,6 +77,12 @@
     "width": 89,
     "height": 720
   },
+  "grok-bot": {
+    "title": "Grok Bot",
+    "group": "ai",
+    "width": 80,
+    "height": 720
+  },
   "huggingface": {
     "title": "Hugging Face",
     "group": "ai",
@@ -111,6 +105,12 @@
     "title": "LangGraph",
     "group": "ai",
     "width": 86,
+    "height": 720
+  },
+  "lobehub": {
+    "title": "LobeHub",
+    "group": "ai",
+    "width": 74,
     "height": 720
   },
   "meta": {
@@ -203,14 +203,20 @@
     "width": 88,
     "height": 720
   },
+  "gemma": {
+    "title": "Gemma",
+    "group": "models",
+    "width": 71,
+    "height": 720
+  },
   "glm": {
     "title": "GLM",
     "group": "models",
     "width": 90,
     "height": 720
   },
-  "gemma": {
-    "title": "Gemma",
+  "gpt-oss": {
+    "title": "gpt-oss",
     "group": "models",
     "width": 71,
     "height": 720
@@ -233,12 +239,6 @@
     "width": 86,
     "height": 720
   },
-  "gpt-oss": {
-    "title": "gpt-oss",
-    "group": "models",
-    "width": 71,
-    "height": 720
-  },
   "alma": {
     "title": "Alma",
     "group": "projects",
@@ -249,6 +249,18 @@
     "title": "Arion",
     "group": "projects",
     "width": 70,
+    "height": 720
+  },
+  "lody": {
+    "title": "lody",
+    "group": "projects",
+    "width": 52,
+    "height": 720
+  },
+  "magpie": {
+    "title": "magpie",
+    "group": "projects",
+    "width": 64,
     "height": 720
   },
   "memoh": {
@@ -273,18 +285,6 @@
     "title": "Obelisk",
     "group": "projects",
     "width": 49,
-    "height": 720
-  },
-  "lody": {
-    "title": "lody",
-    "group": "projects",
-    "width": 52,
-    "height": 720
-  },
-  "magpie": {
-    "title": "magpie",
-    "group": "projects",
-    "width": 64,
     "height": 720
   },
   "pinky": {
@@ -359,6 +359,12 @@
     "width": 82,
     "height": 720
   },
+  "contentful": {
+    "title": "Contentful",
+    "group": "stack",
+    "width": 117,
+    "height": 720
+  },
   "cplusplus": {
     "title": "C++",
     "group": "stack",
@@ -381,6 +387,12 @@
     "title": "Deno",
     "group": "stack",
     "width": 85,
+    "height": 720
+  },
+  "directus": {
+    "title": "Directus",
+    "group": "stack",
+    "width": 83,
     "height": 720
   },
   "discord": {
@@ -407,6 +419,12 @@
     "width": 98,
     "height": 720
   },
+  "drupal": {
+    "title": "Drupal",
+    "group": "stack",
+    "width": 117,
+    "height": 720
+  },
   "electron": {
     "title": "Electron",
     "group": "stack",
@@ -417,6 +435,12 @@
     "title": "Elixir",
     "group": "stack",
     "width": 82,
+    "height": 720
+  },
+  "express": {
+    "title": "Express",
+    "group": "stack",
+    "width": 68,
     "height": 720
   },
   "fastapi": {
@@ -437,10 +461,28 @@
     "width": 89,
     "height": 720
   },
+  "flask": {
+    "title": "Flask",
+    "group": "stack",
+    "width": 98,
+    "height": 720
+  },
   "flutter": {
     "title": "Flutter",
     "group": "stack",
     "width": 81,
+    "height": 720
+  },
+  "gatsby": {
+    "title": "Gatsby",
+    "group": "stack",
+    "width": 97,
+    "height": 720
+  },
+  "ghost": {
+    "title": "Ghost",
+    "group": "stack",
+    "width": 59,
     "height": 720
   },
   "ghostty": {
@@ -497,6 +539,12 @@
     "width": 91,
     "height": 720
   },
+  "htmx": {
+    "title": "htmx",
+    "group": "stack",
+    "width": 73,
+    "height": 720
+  },
   "javascript": {
     "title": "JavaScript",
     "group": "stack",
@@ -531,6 +579,12 @@
     "title": "Kubernetes",
     "group": "stack",
     "width": 104,
+    "height": 720
+  },
+  "laravel": {
+    "title": "Laravel",
+    "group": "stack",
+    "width": 103,
     "height": 720
   },
   "linear": {
@@ -587,6 +641,12 @@
     "width": 88,
     "height": 720
   },
+  "nestjs": {
+    "title": "NestJS",
+    "group": "stack",
+    "width": 101,
+    "height": 720
+  },
   "nextdotjs": {
     "title": "Next.js",
     "group": "stack",
@@ -627,6 +687,12 @@
     "title": "Java",
     "group": "stack",
     "width": 103,
+    "height": 720
+  },
+  "payloadcms": {
+    "title": "Payload",
+    "group": "stack",
+    "width": 96,
     "height": 720
   },
   "php": {
@@ -677,6 +743,12 @@
     "width": 103,
     "height": 720
   },
+  "qwik": {
+    "title": "Qwik",
+    "group": "stack",
+    "width": 67,
+    "height": 720
+  },
   "raycast": {
     "title": "Raycast",
     "group": "stack",
@@ -695,6 +767,12 @@
     "width": 94,
     "height": 720
   },
+  "remix": {
+    "title": "Remix",
+    "group": "stack",
+    "width": 61,
+    "height": 720
+  },
   "resend": {
     "title": "Resend",
     "group": "stack",
@@ -707,10 +785,22 @@
     "width": 100,
     "height": 720
   },
+  "rubyonrails": {
+    "title": "Ruby on Rails",
+    "group": "stack",
+    "width": 117,
+    "height": 720
+  },
   "rust": {
     "title": "Rust",
     "group": "stack",
     "width": 103,
+    "height": 720
+  },
+  "sanity": {
+    "title": "Sanity",
+    "group": "stack",
+    "width": 82,
     "height": 720
   },
   "sentry": {
@@ -719,10 +809,28 @@
     "width": 87,
     "height": 720
   },
+  "solid": {
+    "title": "Solid",
+    "group": "stack",
+    "width": 66,
+    "height": 720
+  },
+  "springboot": {
+    "title": "Spring Boot",
+    "group": "stack",
+    "width": 131,
+    "height": 720
+  },
   "sqlite": {
     "title": "SQLite",
     "group": "stack",
     "width": 94,
+    "height": 720
+  },
+  "strapi": {
+    "title": "Strapi",
+    "group": "stack",
+    "width": 100,
     "height": 720
   },
   "stripe": {
@@ -773,6 +881,12 @@
     "width": 86,
     "height": 720
   },
+  "trpc": {
+    "title": "tRPC",
+    "group": "stack",
+    "width": 59,
+    "height": 720
+  },
   "typescript": {
     "title": "TypeScript",
     "group": "stack",
@@ -803,6 +917,12 @@
     "width": 86,
     "height": 720
   },
+  "wagtail": {
+    "title": "Wagtail",
+    "group": "stack",
+    "width": 97,
+    "height": 720
+  },
   "warp": {
     "title": "Warp",
     "group": "stack",
@@ -813,6 +933,12 @@
     "title": "WebAssembly",
     "group": "stack",
     "width": 100,
+    "height": 720
+  },
+  "wordpress": {
+    "title": "WordPress",
+    "group": "stack",
+    "width": 121,
     "height": 720
   },
   "zapier": {
